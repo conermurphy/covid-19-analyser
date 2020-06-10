@@ -8,6 +8,8 @@ const StyledFooter = styled.footer`
 
   p {
     font-size: 1rem;
+    margin: 0;
+    padding: 1rem;
   }
 `;
 
