@@ -13,7 +13,8 @@ const ContentSection = styled.section`
   justify-content: space-between;
   width: 100%;
   background-color: ${props => (props.coloured ? props.theme.primary : props.theme.coloured)};
-  padding: 2rem 0;
+  padding: 2.5rem 0;
+  padding-top: 1rem;
   box-shadow: ${props => props.theme.bs};
   position: relative;
 
@@ -33,13 +34,15 @@ const ContentSection = styled.section`
       <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1920 300' fill='rgb(242,241,249)' preserveAspectRatio='none'>
       <path width='1920px' height='300px' d='
       M -100 300 
-      C 200 100 300 0 600 200 
-      S 800 -150 1200 150 
-      S 1500 -300 2000 300
+      C 200 50 300 0 600 200 
+      S 800 0 1200 200 
+      S 1500 -200 2000 300
       Z
       '/>
       </svg>")
       no-repeat;
+    z-index: -1;
+    filter: drop-shadow(0px -5px 15px rgba(12, 12, 12, 0.15));
   }
 `;
 
@@ -51,10 +54,11 @@ const TextContent = styled.div`
 `;
 
 const HomeCanvas = styled.canvas`
-  width: 75%;
-  max-width: 75%;
+  width: 50%;
+  max-width: 70%;
   background-color: blue;
   margin: auto;
+  z-index: 2;
 `;
 
 const CovidCanvas = styled.canvas`
@@ -100,7 +104,7 @@ const Home = props => (
         </p>
       </TextContent>
     </ContentSection>
-    <ContentSection coloured column>
+    <ContentSection coloured column beforeEl>
       <TextContent style={{ textAlign: 'center', width: '50%', margin: 'auto' }}>
         <h2>Examples</h2>
         <p>
