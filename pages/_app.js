@@ -1,18 +1,21 @@
-import App, { Container } from 'next/app';
-import Page from '../components/Page';
+import App from 'next/app';
+import { ThemeProvider } from 'styled-components';
 
-class MyApp extends App {
+const theme = {
+  primary: '#5A47AE',
+  secondary: '#BEB7E1',
+  black: '#393939',
+  offWhite: '#EDEDED',
+  bs: '0 12px 24px 0 rgba(0, 0, 0, 0.09)',
+};
+
+export default class MyApp extends App {
   render() {
-    const { Component } = this.props;
-
+    const { Component, pageProps } = this.props;
     return (
-      <Container>
-        <Page>
-          <Component />
-        </Page>
-      </Container>
+      <ThemeProvider theme={theme}>
+        <Component {...pageProps} />
+      </ThemeProvider>
     );
   }
 }
-
-export default MyApp;
