@@ -1,5 +1,6 @@
 import App from 'next/app';
 import { ThemeProvider } from 'styled-components';
+import Page from '../components/Page';
 
 const theme = {
   primary: '#5A47AE',
@@ -14,7 +15,9 @@ export default class MyApp extends App {
     const { Component, pageProps } = this.props;
     return (
       <ThemeProvider theme={theme}>
-        <Component {...pageProps} />
+        <Page>
+          <Component {...pageProps} />
+        </Page>
       </ThemeProvider>
     );
   }
