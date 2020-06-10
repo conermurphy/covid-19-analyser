@@ -7,12 +7,22 @@ const StyledHeader = styled.header`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  padding: 0 10vw;
-  background-color: ${props => props.theme.primary};
+  background-color: ${props => props.theme.offWhite};
+  box-shadow: ${props => props.theme.bs};
+  border-bottom: 5px solid ${props => props.theme.accent};
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 5rem;
+
+  * {
+    padding: 0.5rem 4rem;
+  }
 `;
 
 const Logo = styled.h1`
-  color: ${props => props.theme.primary};
+  font-size: 1.5rem;
 `;
 
 const Header = () => (

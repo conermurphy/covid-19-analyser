@@ -3,11 +3,11 @@ import { ThemeProvider, createGlobalStyle } from 'styled-components';
 import Page from '../components/Page';
 
 const theme = {
-  primary: '#D8D4ED',
+  primary: '#F2F1F9',
   accent: '#B1A9DB',
   black: '#393939',
-  offWhite: '#EDEDED',
-  bs: '0 12px 24px 0 rgba(0, 0, 0, 0.09)',
+  offWhite: '#FEFEFE  ',
+  bs: '0 4px 8px 0 rgba(0, 0, 0, 0.1)',
 };
 
 const GlobalStyle = createGlobalStyle`
@@ -26,11 +26,17 @@ const GlobalStyle = createGlobalStyle`
     font-display: swap;
   }
   body {
+    scroll-padding-top: 7.5rem;
     box-sizing: border-box;
-    margin: 0;
+    margin: 5rem auto;
     font-family: 'Montserrat';
     font-weight: 400;
-    background-color: ${props => props.theme.offWhite}
+    font-size: 10px;
+    background-color: ${props => props.theme.offWhite};
+  }
+  a {
+    text-decoration: none;
+    color: ${props => props.theme.black};
   }
 `;
 

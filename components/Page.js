@@ -13,11 +13,6 @@ const Inner = styled.div`
   padding: 2rem;
 `;
 
-/* eslint-disable */
-
-
-/* eslint-enable */
-
 class Page extends Component {
   render() {
     const { children } = this.props;
