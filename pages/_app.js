@@ -7,7 +7,7 @@ const theme = {
   accent: '#B1A9DB',
   black: '#393939',
   offWhite: '#FEFEFE  ',
-  bs: '0 4px 8px 0 rgba(0, 0, 0, 0.1)',
+  bs: '0 8px 16px 0 rgba(12, 12, 12, 0.07)',
 };
 
 const GlobalStyle = createGlobalStyle`

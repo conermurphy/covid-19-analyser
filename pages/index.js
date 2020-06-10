@@ -9,7 +9,7 @@ const PageContainer = styled.div`
 
 const ContentSection = styled.section`
   display: grid;
-  grid-template-rows: 1fr;
+  grid-template-rows: repeat(${props => (props.rowNum ? props.rowNum : 1)}, auto);
   grid-template-columns: repeat(${props => (props.colNum ? props.colNum : 1)}, 1fr);
   justify-content: center;
   width: 100%;
@@ -72,10 +72,20 @@ const Home = props => (
         </p>
       </TextContent>
     </ContentSection>
-    <ContentSection coloured colNum="3">
-      <CovidCanvas id="covidChart"></CovidCanvas>
-      <CovidCanvas id="covidChart"></CovidCanvas>
-      <CovidCanvas id="covidChart"></CovidCanvas>
+    <ContentSection coloured rowNum="2">
+      <TextContent style={{ textAlign: 'center', width: '50%', margin: 'auto' }}>
+        <h2>Examples</h2>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque tortor orci, porta a mollis in, vestibulum at sapien. Maecenas ut
+          laoreet eros, id pharetra libero. Aenean ex justo, laoreet id fermentum vel, rhoncus placerat metus. Morbi sed blandit ipsum. Sed
+          sit amet magna nec metus feugiat molestie quis sed lectus. Nam vitae diam nisi.
+        </p>
+      </TextContent>
+      <div style={{ display: 'flex', flexDirection: 'row', width: '75%', margin: 'auto' }}>
+        <CovidCanvas id="covidChart"></CovidCanvas>
+        <CovidCanvas id="covidChart"></CovidCanvas>
+        <CovidCanvas id="covidChart"></CovidCanvas>
+      </div>
     </ContentSection>
   </PageContainer>
 );
