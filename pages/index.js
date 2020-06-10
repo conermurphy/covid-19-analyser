@@ -24,15 +24,20 @@ const ContentSection = styled.section`
   ::before {
     content: '';
     display: ${props => (props.beforeEl ? 'flex' : 'none')};
-    display: none;
     width: 100%;
     max-height: 300px;
     height: 30%;
     top: -30%;
     position: absolute;
     background: url("data:image/svg+xml;utf8,
-      <svg xmlns='http://www.w3.org/2000/svg' fill='blue'>
-      <path d='M0,0 H 1920 V 300 H 0 Z'/>
+      <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1920 300' fill='rgb(242,241,249)' preserveAspectRatio='none'>
+      <path width='1920px' height='300px' d='
+      M -100 300 
+      C 200 100 300 0 600 200 
+      S 800 -150 1200 150 
+      S 1500 -300 2000 300
+      Z
+      '/>
       </svg>")
       no-repeat;
   }
