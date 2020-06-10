@@ -14,8 +14,7 @@ const ContentSection = styled.section`
   width: 100%;
   background-color: ${props => (props.coloured ? props.theme.primary : props.theme.coloured)};
   padding: 2.5rem 0;
-  padding-top: 1rem;
-  box-shadow: ${props => props.theme.bs};
+  /* box-shadow: ${props => props.theme.bs}; */
   position: relative;
 
   * {
@@ -105,7 +104,7 @@ const Home = props => (
       </TextContent>
     </ContentSection>
     <ContentSection coloured column beforeEl>
-      <TextContent style={{ textAlign: 'center', width: '50%', margin: 'auto' }}>
+      <TextContent style={{ textAlign: 'center', width: '50%', margin: 'auto', paddingBottom: '2rem' }}>
         <h2>Examples</h2>
         <p>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque tortor orci, porta a mollis in, vestibulum at sapien. Maecenas ut
