@@ -9,12 +9,12 @@ const StyledHeader = styled.header`
   justify-content: space-between;
   background-color: ${props => props.theme.offWhite};
   box-shadow: ${props => props.theme.bs};
-  border-bottom: 5px solid ${props => props.theme.accent};
+  border-bottom: 2.5px solid ${props => props.theme.accent};
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
-  height: 5rem;
+  height: auto;
 
   * {
     padding: 0.5rem 4rem;
