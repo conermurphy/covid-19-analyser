@@ -2,7 +2,13 @@ import styled from 'styled-components';
 import Link from 'next/link';
 import Nav from './Nav';
 
-const StyledHeader = styled.header``;
+const StyledHeader = styled.header`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10vw;
+`;
 
 const Logo = styled.h1``;
 
