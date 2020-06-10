@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import styled, { createGlobalStyle } from 'styled-components';
+import styled from 'styled-components';
 import Header from './Header';
 import Meta from './Meta';
 
 const StyledPage = styled.div`
-  background: white;
   color: ${props => props.theme.black};
+  text-decoration: none;
 `;
 
 const Inner = styled.div`
@@ -15,28 +15,7 @@ const Inner = styled.div`
 
 /* eslint-disable */
 
-const GlobalStyle = createGlobalStyle`
-  @font-face {
-    font-family: 'Montserrat';
-    src: url('./static/Montserrat-Regular.woff2') format('woff2');
-    font-weight: 400;
-    font-style: normal;
-    font-display: swap;
-  }
-  @font-face {
-    font-family: 'Montserrat';
-    src: url('./static/Montserrat-SemiBold.woff2') format('woff2');
-    font-weight: 600;
-    font-style: normal;
-    font-display: swap;
-  }
-  body {
-    box-sizing: border-box;
-    margin: 0;
-    font-family: 'Montserrat';
-    font-weight: 400;
-  }
-`;
+
 /* eslint-enable */
 
 class Page extends Component {
@@ -47,7 +26,6 @@ class Page extends Component {
         <Meta />
         <Header />
         <Inner>{children}</Inner>
-        <GlobalStyle />
       </StyledPage>
     );
   }

@@ -8,9 +8,12 @@ const StyledHeader = styled.header`
   align-items: center;
   justify-content: space-between;
   padding: 0 10vw;
+  background-color: ${props => props.theme.primary};
 `;
 
-const Logo = styled.h1``;
+const Logo = styled.h1`
+  color: ${props => props.theme.primary};
+`;
 
 const Header = () => (
   <StyledHeader>
