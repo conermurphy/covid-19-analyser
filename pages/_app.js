@@ -28,7 +28,8 @@ const GlobalStyle = createGlobalStyle`
   body {
     scroll-padding-top: 7.5rem;
     box-sizing: border-box;
-    margin: 5rem auto;
+    margin: auto;
+    margin-top: 5rem;
     font-family: 'Montserrat';
     font-weight: 400;
     font-size: 10px;
@@ -37,6 +38,15 @@ const GlobalStyle = createGlobalStyle`
   a {
     text-decoration: none;
     color: ${props => props.theme.black};
+  }
+  h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+  p {
+    font-size: 1rem;
+    line-height: 1.4;
+    font-weight: 400;
   }
 `;
 

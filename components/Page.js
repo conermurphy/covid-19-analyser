@@ -11,7 +11,6 @@ const StyledPage = styled.div`
 
 const Inner = styled.div`
   margin: 0 auto;
-  padding: 2rem;
 `;
 
 class Page extends Component {
