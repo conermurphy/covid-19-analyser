@@ -15,6 +15,7 @@ const StyledHeader = styled.header`
   left: 0;
   width: 100vw;
   height: auto;
+  z-index: 999;
 
   * {
     padding: 0.5rem 4rem;

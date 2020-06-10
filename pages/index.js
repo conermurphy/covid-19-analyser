@@ -8,24 +8,46 @@ const PageContainer = styled.div`
 `;
 
 const ContentSection = styled.section`
-  display: grid;
-  grid-template-rows: repeat(${props => (props.rowNum ? props.rowNum : 1)}, auto);
-  grid-template-columns: repeat(${props => (props.colNum ? props.colNum : 1)}, 1fr);
-  justify-content: center;
+  display: flex;
+  flex-direction: ${props => (props.column ? 'column' : 'row')};
+  justify-content: space-between;
   width: 100%;
   background-color: ${props => (props.coloured ? props.theme.primary : props.theme.coloured)};
   padding: 2rem 0;
   box-shadow: ${props => props.theme.bs};
+  position: relative;
+
+  * {
+    flex: 1 1 0;
+  }
+
+  ::before {
+    content: '';
+    display: ${props => (props.beforeEl ? 'flex' : 'none')};
+    display: none;
+    width: 100%;
+    max-height: 300px;
+    height: 30%;
+    top: -30%;
+    position: absolute;
+    background: url("data:image/svg+xml;utf8,
+      <svg xmlns='http://www.w3.org/2000/svg' fill='blue'>
+      <path d='M0,0 H 1920 V 300 H 0 Z'/>
+      </svg>")
+      no-repeat;
+  }
 `;
 
 const TextContent = styled.div`
-  padding-left: ${props => (props.left ? '25%' : 0)};
-  padding-right: ${props => (props.right ? '25%' : 0)};
+  padding-left: ${props => (props.left ? '15rem' : 0)};
+  padding-right: ${props => (props.right ? '15rem' : 0)};
   text-align: ${props => (props.right ? 'right' : 'left')};
+  max-width: 40%;
 `;
 
 const HomeCanvas = styled.canvas`
   width: 75%;
+  max-width: 75%;
   background-color: blue;
   margin: auto;
 `;
@@ -33,16 +55,17 @@ const HomeCanvas = styled.canvas`
 const CovidCanvas = styled.canvas`
   width: 400px;
   height: 400px;
+  max-width: 400px;
   background-color: blue;
   margin: auto;
 `;
 
 const Home = props => (
   <PageContainer>
-    <ContentSection colNum="1">
+    <ContentSection>
       <HomeCanvas id="homeChart"></HomeCanvas>
     </ContentSection>
-    <ContentSection coloured colNum="2">
+    <ContentSection coloured beforeEl>
       <TextContent left>
         <h2>COVID-19</h2>
         <p>
@@ -57,7 +80,7 @@ const Home = props => (
       </TextContent>
       <CovidCanvas id="covidChart"></CovidCanvas>
     </ContentSection>
-    <ContentSection colNum="2">
+    <ContentSection>
       <CovidCanvas id="covidChart"></CovidCanvas>
       <TextContent right>
         <h2>About</h2>
@@ -72,7 +95,7 @@ const Home = props => (
         </p>
       </TextContent>
     </ContentSection>
-    <ContentSection coloured rowNum="2">
+    <ContentSection coloured column>
       <TextContent style={{ textAlign: 'center', width: '50%', margin: 'auto' }}>
         <h2>Examples</h2>
         <p>
