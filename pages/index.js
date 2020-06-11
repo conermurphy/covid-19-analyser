@@ -27,10 +27,10 @@ const ContentSection = styled.section`
     width: 100%;
     max-height: 300px;
     height: 30%;
-    top: -30%;
+    top: -29%;
     position: absolute;
     background: url("data:image/svg+xml;utf8,
-      <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1920 300' fill='rgb(242,241,249)' preserveAspectRatio='none'>
+      <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1920 300' fill='rgb(215,212,237)' stroke='none' preserveAspectRatio='none'>
       <path width='1920px' height='300px' d='
       M -100 300 
       C 200 50 300 0 600 200 

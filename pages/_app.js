@@ -3,7 +3,7 @@ import { ThemeProvider, createGlobalStyle } from 'styled-components';
 import Page from '../components/Page';
 
 const theme = {
-  primary: '#F2F1F9',
+  primary: '#D7D4ED',
   accent: '#B1A9DB',
   black: '#393939',
   offWhite: '#FEFEFE  ',
