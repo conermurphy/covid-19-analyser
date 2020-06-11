@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import Chart from 'chart.js';
 import useSWR from 'swr';
+import { request } from 'graphql-request';
 import React, { useState, useEffect } from 'react';
 
 const PageContainer = styled.div`
@@ -60,36 +61,69 @@ const CovidCanvasContainer = styled.div`
 `;
 
 const Home = () => {
-  const [homeChartData, setHomeChartData] = useState();
+  const [homeChartAPIData, setHomeChartAPIData] = useState();
+  const [homeChartAPILabels, setHomeChartAPILabels] = useState();
 
-  useEffect(() => {
-    const homeCtx = document.getElementById('homeChart').getContext('2d');
-    const homeChartOptions = {
-      legend: {
-        display: false,
-      },
-    };
-    const homeChartData = {
-      labels: [1, 2, 3, 4, 5, 6, 7, 8],
-      datasets: [
-        {
-          label: 'Covid-19 Cases / Status / Country',
-          backgroundColor: 'rgba(255,99,132,0.2)',
-          borderColor: '#D7D4ED',
-          pointBackgroundColor: '#D7D4ED',
-          borderWidth: 5,
-          fill: 'none',
-          lineTension: 0,
-          data: [12, 10, 30, 24, 0, 21, 12, 3],
-        },
-      ],
-    };
-    const homeChart = new Chart(homeCtx, {
-      type: 'line',
-      data: homeChartData,
-      options: homeChartOptions,
-    });
-  }, []);
+  const API = 'https://covid-19-graphql-api.herokuapp.com/';
+  const fetcher = query => request(API, query);
+
+  const fetchHomeData = async () => {
+    const { data, error } = await useSWR(
+      `query {
+        getTimeSeries(uniqueId:"United-Kingdom") {
+        dead
+        recovered
+        confirmed
+        }
+      }`,
+      fetcher
+    );
+    if (!data) return <p>Awaiting data</p>;
+    return data.getTimeSeries[0];
+  };
+
+  const homeGraphData = fetchHomeData().then(data => {
+    console.log(data);
+    // setHomeChartAPIData(Object.values(data.confirmed));
+    // setHomeChartAPILabels(Object.keys(data.confirmed));
+  });
+
+  // console.log(homeGraphData);
+
+  // console.log(homeChartAPIData);
+
+  // function homeChart() {
+  //   const homeChartOptions = {
+  //     legend: {
+  //       display: false,
+  //     },
+  //   };
+
+  //   const homeChartData = {
+  //     labels: homeChartAPILabels,
+  //     datasets: [
+  //       {
+  //         label: 'Covid-19 Cases / Status / Country',
+  //         backgroundColor: 'rgba(255,99,132,0.2)',
+  //         borderColor: '#D7D4ED',
+  //         pointBackgroundColor: '#D7D4ED',
+  //         borderWidth: 5,
+  //         fill: 'none',
+  //         lineTension: 0,
+  //         data: homeChartAPIData,
+  //       },
+  //     ],
+  //   };
+  //   const homeCtx = document.getElementById('homeChart').getContext('2d');
+
+  //   const homeChart = new Chart(homeCtx, {
+  //     type: 'line',
+  //     data: homeChartData,
+  //     options: homeChartOptions,
+  //   });
+  // }
+
+  fetchHomeData();
 
   return (
     <PageContainer>
