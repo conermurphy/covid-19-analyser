@@ -22,24 +22,11 @@ const ContentSection = styled.section`
   }
 
   ::before {
-    content: '';
-    display: ${props => (props.beforeEl ? 'flex' : 'none')};
+    content: url("./beforeEl.svg");
+    display: ${props => (props.beforeEl ? 'conents' : 'none')};
     width: 100%;
-    max-height: 300px;
-    height: 30%;
-    top: -29%;
+    top: -280px;
     position: absolute;
-    background: url("data:image/svg+xml;utf8,
-      <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1920 300' fill='rgb(215,212,237)' stroke='none' preserveAspectRatio='none'>
-      <path width='1920px' height='300px' d='
-      M -100 300 
-      C 200 50 300 0 600 200 
-      S 800 0 1200 200 
-      S 1500 -200 2000 300
-      Z
-      '/>
-      </svg>")
-      no-repeat;
     z-index: -1;
     filter: drop-shadow(0px -5px 15px rgba(12, 12, 12, 0.15));
   }
