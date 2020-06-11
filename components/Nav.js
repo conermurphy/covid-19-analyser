@@ -6,13 +6,13 @@ const Nav = () => (
     <Link href="/">
       <a>Home</a>
     </Link>
-    <Link href="/">
+    <Link href="/#covid">
       <a>COVID-19</a>
     </Link>
-    <Link href="/">
+    <Link href="/#about">
       <a>About</a>
     </Link>
-    <Link href="/">
+    <Link href="/#examples">
       <a>Examples</a>
     </Link>
   </NavStyles>

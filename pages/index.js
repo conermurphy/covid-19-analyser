@@ -59,7 +59,7 @@ const Home = props => (
     <ContentSection>
       <HomeCanvas id="homeChart"></HomeCanvas>
     </ContentSection>
-    <ContentSection coloured beforeEl>
+    <ContentSection id="covid" coloured beforeEl>
       <TextContent left>
         <h2>COVID-19</h2>
         <p>
@@ -74,7 +74,7 @@ const Home = props => (
       </TextContent>
       <CovidCanvas id="covidChart"></CovidCanvas>
     </ContentSection>
-    <ContentSection>
+    <ContentSection id="about">
       <CovidCanvas id="covidChart"></CovidCanvas>
       <TextContent right>
         <h2>About</h2>
@@ -89,7 +89,7 @@ const Home = props => (
         </p>
       </TextContent>
     </ContentSection>
-    <ContentSection coloured column beforeEl>
+    <ContentSection id="examples" coloured column beforeEl>
       <TextContent style={{ textAlign: 'center', width: '50%', margin: 'auto', paddingBottom: '2rem' }}>
         <h2>Examples</h2>
         <p>
