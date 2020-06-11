@@ -15,7 +15,10 @@ const StyledFooter = styled.footer`
 const Footer = () => (
   <StyledFooter>
     <p>
-      Developed with 💛 by <a href="https://conermurphy.com">Coner Murphy</a>
+      Developed with 💛 by{' '}
+      <b>
+        <a href="https://conermurphy.com">Coner Murphy</a>
+      </b>
     </p>
   </StyledFooter>
 );
