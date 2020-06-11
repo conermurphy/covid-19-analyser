@@ -13,8 +13,8 @@ const ContentSection = styled.section`
   justify-content: space-between;
   width: 100%;
   background-color: ${props => (props.coloured ? props.theme.primary : props.theme.coloured)};
+  background: ${props => (props.coloured ? 'linear-gradient(180deg, rgba(215,212,237,1) 75%, rgba(254,254,254,1) 95%)' : 'none')};
   padding: 2.5rem 0;
-  /* box-shadow: ${props => props.theme.bs}; */
   position: relative;
 
   * {
@@ -22,7 +22,7 @@ const ContentSection = styled.section`
   }
 
   ::before {
-    content: url("./beforeEl.svg");
+    content: url('./beforeEl.svg');
     display: ${props => (props.beforeEl ? 'conents' : 'none')};
     width: 100%;
     top: -270px;

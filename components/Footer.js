@@ -2,7 +2,6 @@ import styled from 'styled-components';
 
 const StyledFooter = styled.footer`
   background-color: ${props => props.theme.offWhite};
-  border-top: 2.5px solid ${props => props.theme.accent};
   text-align: center;
   height: auto;
 
