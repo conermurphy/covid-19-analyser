@@ -25,10 +25,9 @@ const ContentSection = styled.section`
     content: url("./beforeEl.svg");
     display: ${props => (props.beforeEl ? 'conents' : 'none')};
     width: 100%;
-    top: -280px;
+    top: -270px;
     position: absolute;
     z-index: -1;
-    filter: drop-shadow(0px -5px 15px rgba(12, 12, 12, 0.15));
   }
 `;
 
