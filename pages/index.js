@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import Chart from 'chart.js';
+import useSWR from 'swr';
 import React, { useState, useEffect } from 'react';
 
 const PageContainer = styled.div`
@@ -59,6 +60,8 @@ const CovidCanvasContainer = styled.div`
 `;
 
 const Home = () => {
+  const [homeChartData, setHomeChartData] = useState();
+
   useEffect(() => {
     const homeCtx = document.getElementById('homeChart').getContext('2d');
     const homeChartOptions = {
