@@ -1,7 +1,10 @@
 import styled from 'styled-components';
-import Chart from 'chart.js';
 import { request } from 'graphql-request';
 import React, { useState, useEffect } from 'react';
+import dynamic from 'next/dynamic';
+import Chart from 'chart.js';
+
+// const HomeChart = dynamic(() => import('../components/charts/home.js'), { srr: false });
 
 const PageContainer = styled.div`
   display: flex;
@@ -62,10 +65,11 @@ const CovidCanvasContainer = styled.div`
 const Home = () => {
   const [homeChartAPIData, setHomeChartAPIData] = useState();
   const [homeChartAPILabels, setHomeChartAPILabels] = useState();
+  const [isLoading, setIsLoading] = useState(false);
 
   const API = 'https://covid-19-graphql-api.herokuapp.com/';
   const query = `query {
-    getTimeSeries(uniqueId:"Spain") {
+    getTimeSeries(uniqueId:"Brazil") {
       dead
       recovered
       confirmed
@@ -75,15 +79,21 @@ const Home = () => {
 
   useEffect(() => {
     const fetchHomeData = async () => {
+      setIsLoading(true);
       const data = await request(API, query);
       const usableData = data.getTimeSeries[0].confirmed;
       setHomeChartAPIData(Object.values(usableData));
       setHomeChartAPILabels(Object.keys(usableData));
+      setIsLoading(false);
     };
     fetchHomeData();
   }, [query]);
 
-  function homeChartMaker() {
+  console.log(isLoading);
+
+  if (typeof window !== 'undefined' && isLoading === false) {
+    const homeCtx = document.getElementById('homeChart').getContext('2d');
+
     const homeChartOptions = {
       legend: {
         display: false,
@@ -106,7 +116,7 @@ const Home = () => {
       ],
     };
 
-    const homeCtx = document.getElementById('homeChart').getContext('2d');
+    // console.log(labels);
 
     const homeChart = new Chart(homeCtx, {
       type: 'line',
@@ -119,6 +129,8 @@ const Home = () => {
     <PageContainer>
       <ContentSection>
         <HomeChartContainer>
+          {/* {isLoading ? <p>Loading Data...</p> : <HomeChart data={homeChartAPIData} labels={homeChartAPILabels} isLoading={isLoading} />} */}
+
           <canvas id="homeChart"></canvas>
         </HomeChartContainer>
       </ContentSection>
