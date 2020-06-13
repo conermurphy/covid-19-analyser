@@ -2,9 +2,8 @@ import styled from 'styled-components';
 import { request } from 'graphql-request';
 import React, { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
-import Chart from 'chart.js';
 
-// const HomeChart = dynamic(() => import('../components/charts/home.js'), { srr: false });
+const HomeChart = dynamic(() => import('../components/charts/home.js'), { srr: false });
 
 const PageContainer = styled.div`
   display: flex;
@@ -69,7 +68,7 @@ const Home = () => {
 
   const API = 'https://covid-19-graphql-api.herokuapp.com/';
   const query = `query {
-    getTimeSeries(uniqueId:"Brazil") {
+    getTimeSeries(uniqueId:"British-Columbia-Canada") {
       dead
       recovered
       confirmed
@@ -89,49 +88,12 @@ const Home = () => {
     fetchHomeData();
   }, [query]);
 
-  console.log(isLoading);
-
-  if (typeof window !== 'undefined' && isLoading === false) {
-    const homeCtx = document.getElementById('homeChart').getContext('2d');
-
-    const homeChartOptions = {
-      legend: {
-        display: false,
-      },
-    };
-
-    const homeChartData = {
-      labels: homeChartAPILabels,
-      datasets: [
-        {
-          label: 'Covid-19 Cases / Status / Country',
-          backgroundColor: 'rgba(255,99,132,0.2)',
-          borderColor: '#D7D4ED',
-          pointBackgroundColor: '#D7D4ED',
-          borderWidth: 5,
-          fill: 'none',
-          lineTension: 0,
-          data: homeChartAPIData,
-        },
-      ],
-    };
-
-    // console.log(labels);
-
-    const homeChart = new Chart(homeCtx, {
-      type: 'line',
-      data: homeChartData,
-      options: homeChartOptions,
-    });
-  }
-
   return (
     <PageContainer>
       <ContentSection>
         <HomeChartContainer>
-          {/* {isLoading ? <p>Loading Data...</p> : <HomeChart data={homeChartAPIData} labels={homeChartAPILabels} isLoading={isLoading} />} */}
-
-          <canvas id="homeChart"></canvas>
+          {isLoading ? <p>Loading Data...</p> : <HomeChart data={homeChartAPIData} labels={homeChartAPILabels} isLoading={isLoading} />}
+          <canvas id="homeChart"></canvas>;
         </HomeChartContainer>
       </ContentSection>
       <ContentSection id="covid" coloured beforeEl>
