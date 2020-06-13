@@ -1,13 +1,23 @@
-import React from 'react';
 import Chart from 'chart.js';
 
-const HomeChart = ({ data, labels, isLoading }) => {
-  if (typeof window !== 'undefined' && isLoading === false) {
+const HomeChart = ({ data, labels, isLoading, uniqueId }) => {
+  if (typeof window !== 'undefined' && isLoading === false && data) {
     const homeCtx = document.getElementById('homeChart').getContext('2d');
+
+    let confirmedData;
+    let deadData;
+    let recoveredData;
+
+    for (const el in data) {
+      confirmedData = data.confirmed ? Object.values(data.confirmed) : 'null';
+      deadData = data.dead ? Object.values(data.dead) : 'null';
+      recoveredData = data.recovered ? Object.values(data.recovered) : 'null';
+    }
 
     const homeChartOptions = {
       legend: {
-        display: false,
+        display: true,
+        labels: {},
       },
     };
 
@@ -15,14 +25,31 @@ const HomeChart = ({ data, labels, isLoading }) => {
       labels,
       datasets: [
         {
-          label: 'Covid-19 Cases / Status / Country',
-          backgroundColor: 'rgba(255,99,132,0.2)',
+          label: `${uniqueId} : Confirmed`,
+          backgroundColor: '#D7D4ED',
           borderColor: '#D7D4ED',
-          pointBackgroundColor: '#D7D4ED',
           borderWidth: 5,
           fill: 'none',
           lineTension: 0,
-          data,
+          data: confirmedData,
+        },
+        {
+          label: `${uniqueId} : Dead`,
+          backgroundColor: '#333333',
+          borderColor: '#333333',
+          borderWidth: 5,
+          fill: 'none',
+          lineTension: 0,
+          data: deadData,
+        },
+        {
+          label: `${uniqueId} : Recovered`,
+          backgroundColor: '#999999',
+          borderColor: '#999999',
+          borderWidth: 5,
+          fill: 'none',
+          lineTension: 0,
+          data: recoveredData,
         },
       ],
     };

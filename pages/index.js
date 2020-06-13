@@ -64,11 +64,12 @@ const CovidCanvasContainer = styled.div`
 const Home = () => {
   const [homeChartAPIData, setHomeChartAPIData] = useState();
   const [homeChartAPILabels, setHomeChartAPILabels] = useState();
+  const [uniqueId, setUniqueId] = useState('Denmark');
   const [isLoading, setIsLoading] = useState(false);
 
   const API = 'https://covid-19-graphql-api.herokuapp.com/';
   const query = `query {
-    getTimeSeries(uniqueId:"British-Columbia-Canada") {
+    getTimeSeries(uniqueId:"${uniqueId}") {
       dead
       recovered
       confirmed
@@ -80,9 +81,12 @@ const Home = () => {
     const fetchHomeData = async () => {
       setIsLoading(true);
       const data = await request(API, query);
-      const usableData = data.getTimeSeries[0].confirmed;
-      setHomeChartAPIData(Object.values(usableData));
-      setHomeChartAPILabels(Object.keys(usableData));
+
+      const usableData = data.getTimeSeries[0];
+
+      setHomeChartAPIData(usableData);
+      setHomeChartAPILabels(Object.keys(data.getTimeSeries[0].confirmed));
+
       setIsLoading(false);
     };
     fetchHomeData();
@@ -92,7 +96,11 @@ const Home = () => {
     <PageContainer>
       <ContentSection>
         <HomeChartContainer>
-          {isLoading ? <p>Loading Data...</p> : <HomeChart data={homeChartAPIData} labels={homeChartAPILabels} isLoading={isLoading} />}
+          {isLoading ? (
+            <p>Loading Data...</p>
+          ) : (
+            <HomeChart data={homeChartAPIData} labels={homeChartAPILabels} isLoading={isLoading} uniqueId={uniqueId} />
+          )}
           <canvas id="homeChart"></canvas>;
         </HomeChartContainer>
       </ContentSection>
