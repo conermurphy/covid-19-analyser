@@ -21,34 +21,41 @@ const HomeChart = ({ data, labels, isLoading, uniqueId }) => {
       },
     };
 
+    const pointRadius = 2;
+    const borderWidth = 5;
+    const lineTension = 0;
+
     const homeChartData = {
       labels,
       datasets: [
         {
           label: `${uniqueId} : Confirmed`,
-          backgroundColor: '#D7D4ED',
-          borderColor: '#D7D4ED',
-          borderWidth: 5,
+          backgroundColor: '#ABD1B5',
+          borderColor: '#ABD1B5',
+          borderWidth,
+          pointRadius,
           fill: 'none',
-          lineTension: 0,
+          lineTension,
           data: confirmedData,
         },
         {
           label: `${uniqueId} : Dead`,
-          backgroundColor: '#333333',
-          borderColor: '#333333',
-          borderWidth: 5,
+          backgroundColor: '#F1887E',
+          borderColor: '#F1887E',
+          borderWidth,
+          pointRadius,
           fill: 'none',
-          lineTension: 0,
+          lineTension,
           data: deadData,
         },
         {
           label: `${uniqueId} : Recovered`,
-          backgroundColor: '#999999',
-          borderColor: '#999999',
-          borderWidth: 5,
+          backgroundColor: '#CADAF7',
+          borderColor: '#CADAF7',
+          borderWidth,
+          pointRadius,
           fill: 'none',
-          lineTension: 0,
+          lineTension,
           data: recoveredData,
         },
       ],
