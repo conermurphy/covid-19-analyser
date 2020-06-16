@@ -1,6 +1,6 @@
 import Chart from 'chart.js';
 
-const HomeChart = ({ data, labels, isLoading, uniqueId }) => {
+const HomeChart = ({ data, labels, isLoading, combinedKey }) => {
   if (typeof window !== 'undefined' && isLoading === false && data) {
     const homeCtx = document.getElementById('homeChart').getContext('2d');
 
@@ -29,7 +29,7 @@ const HomeChart = ({ data, labels, isLoading, uniqueId }) => {
       labels,
       datasets: [
         {
-          label: `${uniqueId} : Confirmed`,
+          label: `${combinedKey} : Confirmed`,
           backgroundColor: '#ABD1B5',
           borderColor: '#ABD1B5',
           borderWidth,
@@ -39,7 +39,7 @@ const HomeChart = ({ data, labels, isLoading, uniqueId }) => {
           data: confirmedData,
         },
         {
-          label: `${uniqueId} : Dead`,
+          label: `${combinedKey} : Dead`,
           backgroundColor: '#F1887E',
           borderColor: '#F1887E',
           borderWidth,
@@ -49,7 +49,7 @@ const HomeChart = ({ data, labels, isLoading, uniqueId }) => {
           data: deadData,
         },
         {
-          label: `${uniqueId} : Recovered`,
+          label: `${combinedKey} : Recovered`,
           backgroundColor: '#CADAF7',
           borderColor: '#CADAF7',
           borderWidth,
