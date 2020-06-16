@@ -64,11 +64,23 @@ const CovidCanvasContainer = styled.div`
 const Home = () => {
   const [homeChartAPIData, setHomeChartAPIData] = useState();
   const [homeChartAPILabels, setHomeChartAPILabels] = useState();
-  const [combinedKey, setCombinedKey] = useState('Denmark');
+  const [combinedKey, setCombinedKey] = useState('Denmark'); // Value used to query API for data
+  const [combinedKeyList, setCombinedKeyList] = useState(); // Complete list of data for users to select from
+  const [countryRegion, setCountryRegion] = useState('Denmark'); // Country Region selected by the user.
+  const [provinceRegion, setProvinceRegion] = useState(); // Province Region set by the user.
   const [isLoading, setIsLoading] = useState(false);
 
   const API = 'https://covid-19-graphql-api.herokuapp.com/';
-  const query = `query {
+  const combinedKeyListQuery = `
+    query {
+      getTimeSeriesAll {
+        countryRegion
+        provinceState
+        combinedKey
+      }
+    }
+  `;
+  const homeGraphDataQuery = `query {
     getTimeSeries(combinedKey:"${combinedKey}") {
       dead
       recovered
@@ -78,19 +90,31 @@ const Home = () => {
   `;
 
   useEffect(() => {
+    const fetchCountryData = async () => {
+      setIsLoading(true);
+
+      const combinedKeyListData = await request(API, combinedKeyListQuery);
+      setCombinedKeyList(combinedKeyListData.getTimeSeriesAll);
+
+      setIsLoading(false);
+    };
+    fetchCountryData();
+  }, [combinedKeyListQuery]);
+
+  useEffect(() => {
     const fetchHomeData = async () => {
       setIsLoading(true);
-      const data = await request(API, query);
 
-      const usableData = data.getTimeSeries[0];
+      const homeGraphData = await request(API, homeGraphDataQuery);
+      const usableData = homeGraphData.getTimeSeries[0];
 
       setHomeChartAPIData(usableData);
-      setHomeChartAPILabels(Object.keys(data.getTimeSeries[0].confirmed));
+      setHomeChartAPILabels(Object.keys(usableData.confirmed));
 
       setIsLoading(false);
     };
     fetchHomeData();
-  }, [query]);
+  }, [homeGraphDataQuery]);
 
   return (
     <PageContainer>
