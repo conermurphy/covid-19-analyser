@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { request } from 'graphql-request';
 import React, { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
+import HomeDropdown from '../components/HomeDropdown';
 
 const HomeChart = dynamic(() => import('../components/charts/home.js'), { srr: false });
 
@@ -68,6 +69,7 @@ const Home = () => {
   const [combinedKeyList, setCombinedKeyList] = useState(); // Complete list of data for users to select from
   const [countryRegion, setCountryRegion] = useState('Denmark'); // Country Region selected by the user.
   const [provinceRegion, setProvinceRegion] = useState(); // Province Region set by the user.
+  const [usStateArea, setUsStateArea] = useState();
   const [isLoading, setIsLoading] = useState(false);
 
   const API = 'https://covid-19-graphql-api.herokuapp.com/';
@@ -99,7 +101,7 @@ const Home = () => {
       setIsLoading(false);
     };
     fetchCountryData();
-  }, [combinedKeyListQuery]);
+  }, []); // eslint-disable-line
 
   useEffect(() => {
     const fetchHomeData = async () => {
@@ -116,9 +118,28 @@ const Home = () => {
     fetchHomeData();
   }, [homeGraphDataQuery]);
 
+  function updateState(val, type) {
+    switch (type) {
+      case countryRegion:
+        setCountryRegion(val);
+        break;
+      case provinceRegion:
+        setProvinceRegion(val);
+        break;
+      case usStateArea:
+        setUsStateArea(val);
+        break;
+      default:
+        break;
+    }
+  }
+
   return (
     <PageContainer>
       <ContentSection>
+        {/* <HomeDropdown stateUpdater={updateState} arr={combinedKeyList} />
+        <HomeDropdown stateUpdater={updateState} arr={combinedKeyList} />
+        <HomeDropdown stateUpdater={updateState} arr={combinedKeyList} /> */}
         <HomeChartContainer>
           {isLoading ? (
             <p>Loading Data...</p>
