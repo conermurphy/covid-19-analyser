@@ -120,13 +120,13 @@ const Home = () => {
 
   function updateState(val, type) {
     switch (type) {
-      case countryRegion:
+      case 'countryRegion':
         setCountryRegion(val);
         break;
-      case provinceRegion:
+      case 'provinceRegion':
         setProvinceRegion(val);
         break;
-      case usStateArea:
+      case 'usStateArea':
         setUsStateArea(val);
         break;
       default:
@@ -137,9 +137,9 @@ const Home = () => {
   return (
     <PageContainer>
       <ContentSection>
-        {/* <HomeDropdown stateUpdater={updateState} arr={combinedKeyList} />
-        <HomeDropdown stateUpdater={updateState} arr={combinedKeyList} />
-        <HomeDropdown stateUpdater={updateState} arr={combinedKeyList} /> */}
+        <HomeDropdown stateUpdater={updateState} arr={combinedKeyList} type="countryRegion" />
+        {/* <HomeDropdown stateUpdater={updateState} arr={combinedKeyList} type="countryRegion" />
+        <HomeDropdown stateUpdater={updateState} arr={combinedKeyList} type="countryRegion" /> */}
         <HomeChartContainer>
           {isLoading ? (
             <p>Loading Data...</p>

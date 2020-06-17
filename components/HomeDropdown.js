@@ -1,12 +1,29 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const HomeDropdown = ({ stateUpdater, arr }) => {
+const HomeDropdown = ({ stateUpdater, arr, type }) => {
   if (typeof arr !== 'undefined') {
-    console.log(arr);
+    let indArr;
+    switch (type) {
+      case 'countryRegion':
+        indArr = arr.map(a => a.countryRegion);
+        indArr = Array.from(new Set(indArr));
+        break;
+      case 'provinceRegion':
+        indArr = arr.map(a => a.provinceRegion);
+        indArr = Array.from(new Set(indArr));
+        break;
+      case 'usStateArea':
+        indArr = arr.map(a => a.usStateArea);
+        indArr = Array.from(new Set(indArr));
+        break;
+      default:
+        break;
+    }
+    console.log(indArr);
     return (
-      <select name="countryRegions" id="countryRegions">
-        {arr.map(a => (
+      <select name={type} id={type}>
+        {indArr.map(a => (
           <option value={a}>{a}</option>
         ))}
       </select>
