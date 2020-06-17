@@ -62,6 +62,30 @@ const CovidCanvasContainer = styled.div`
   background-color: blue;
 `;
 
+const StyledForm = styled.form`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  height: auto;
+  width: 100%;
+  margin: 1rem;
+
+  & > select {
+    max-width: 15rem;
+    height: 2.5rem;
+    border: 2px solid ${props => props.theme.accent};
+    border-radius: 0.5rem;
+    background-color: ${props => props.theme.offWhite};
+    box-shadow: ${props => props.theme.bs};
+    padding: 0 0.5rem;
+
+    & > option {
+    }
+  }
+`;
+
 const Home = () => {
   const [homeChartAPIData, setHomeChartAPIData] = useState();
   const [homeChartAPILabels, setHomeChartAPILabels] = useState();
@@ -136,10 +160,12 @@ const Home = () => {
 
   return (
     <PageContainer>
-      <ContentSection>
-        <HomeDropdown stateUpdater={updateState} arr={combinedKeyList} type="countryRegion" />
-        {/* <HomeDropdown stateUpdater={updateState} arr={combinedKeyList} type="countryRegion" />
+      <ContentSection column>
+        <StyledForm>
+          <HomeDropdown stateUpdater={updateState} arr={combinedKeyList} type="countryRegion" />
+          {/* <HomeDropdown stateUpdater={updateState} arr={combinedKeyList} type="countryRegion" />
         <HomeDropdown stateUpdater={updateState} arr={combinedKeyList} type="countryRegion" /> */}
+        </StyledForm>
         <HomeChartContainer>
           {isLoading ? (
             <p>Loading Data...</p>
