@@ -34,6 +34,7 @@ const GlobalStyle = createGlobalStyle`
     font-weight: 400;
     font-size: 10px;
     background-color: ${props => props.theme.offWhite};
+    overflow-x: hidden;
   }
   a {
     text-decoration: none;

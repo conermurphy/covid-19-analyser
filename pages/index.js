@@ -48,7 +48,7 @@ const HomeChartContainer = styled.div`
   position: relative;
   margin: auto;
   height: 70vh;
-  width: 50%;
+  width: 75%;
   max-width: 75%;
   z-index: 2;
 `;
