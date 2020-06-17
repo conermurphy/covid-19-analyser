@@ -20,7 +20,7 @@ const HomeDropdown = ({ stateUpdater, arr, type }) => {
       default:
         break;
     }
-    console.log(indArr);
+
     return (
       <select name={type} id={type}>
         {indArr.map(a => (

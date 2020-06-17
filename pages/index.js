@@ -80,9 +80,6 @@ const StyledForm = styled.form`
     background-color: ${props => props.theme.offWhite};
     box-shadow: ${props => props.theme.bs};
     padding: 0 0.5rem;
-
-    & > option {
-    }
   }
 `;
 
