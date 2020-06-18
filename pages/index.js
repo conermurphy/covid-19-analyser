@@ -2,7 +2,9 @@ import styled from 'styled-components';
 import { request } from 'graphql-request';
 import React, { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
-import HomeDropdown from '../components/HomeDropdown';
+import CountryRegionDropdown from '../components/CountryRegionDropdown';
+import ProvinceStateDropdown from '../components/ProvinceStateDropdown';
+import USStateAreaDropdown from '../components/USStateAreaDropdown';
 
 const HomeChart = dynamic(() => import('../components/charts/home.js'), { srr: false });
 
@@ -114,6 +116,11 @@ const Home = () => {
       }
     }
   `;
+  const homeProvinceStateQuery = `query {
+    getProvinceState(countryRegion:"US") {
+      provinceState
+    }
+  }`;
 
   // This query fetches the full combined list from the API and sets the state.
 
@@ -148,6 +155,16 @@ const Home = () => {
 
   // function passed to child home drop down menus to update state
 
+  useEffect(() => {
+    const fetchProvinceState = async () => {
+      setIsLoading(true);
+
+      const provinceStateData = await request(API, homeProvinceStateQuery);
+      const stateData = provinceStateData.getProvinceState;
+    };
+    fetchProvinceState();
+  }, [homeProvinceStateQuery]);
+
   function updateState(val, type) {
     switch (type) {
       case 'countryRegion':
@@ -168,9 +185,9 @@ const Home = () => {
     <PageContainer>
       <ContentSection column>
         <StyledForm>
-          <HomeDropdown stateUpdater={updateState} arr={combinedKeyList} type="countryRegion" countryRegion={countryRegion} />
-          <HomeDropdown stateUpdater={updateState} arr={combinedKeyList} type="provinceRegion" countryRegion={countryRegion} />
-          <HomeDropdown stateUpdater={updateState} arr={combinedKeyList} type="usStateArea" countryRegion={countryRegion} />
+          <CountryRegionDropdown stateUpdater={updateState} arr={combinedKeyList} />
+          <ProvinceStateDropdown stateUpdater={updateState} arr={combinedKeyList} />
+          <USStateAreaDropdown stateUpdater={updateState} arr={combinedKeyList} />
         </StyledForm>
         <HomeChartContainer>
           {isLoading ? (
