@@ -73,8 +73,9 @@ const StyledForm = styled.form`
   margin: 1rem;
 
   & > select {
-    max-width: 15rem;
+    max-width: 20%;
     height: 2.5rem;
+    margin: 0 1.5rem;
     border: 2px solid ${props => props.theme.accent};
     border-radius: 0.5rem;
     background-color: ${props => props.theme.offWhite};
@@ -84,16 +85,18 @@ const StyledForm = styled.form`
 `;
 
 const Home = () => {
+  const API = 'https://covid-19-graphql-api.herokuapp.com/';
+  const defaultSelection = 'US';
+
   const [homeChartAPIData, setHomeChartAPIData] = useState();
   const [homeChartAPILabels, setHomeChartAPILabels] = useState();
-  const [combinedKey, setCombinedKey] = useState('Denmark'); // Value used to query API for data
+  const [combinedKey, setCombinedKey] = useState(defaultSelection); // Value used to query API for data
   const [combinedKeyList, setCombinedKeyList] = useState(); // Complete list of data for users to select from
-  const [countryRegion, setCountryRegion] = useState('Denmark'); // Country Region selected by the user.
+  const [countryRegion, setCountryRegion] = useState(defaultSelection); // Country Region selected by the user.
   const [provinceRegion, setProvinceRegion] = useState(); // Province Region set by the user.
   const [usStateArea, setUsStateArea] = useState();
   const [isLoading, setIsLoading] = useState(false);
 
-  const API = 'https://covid-19-graphql-api.herokuapp.com/';
   const combinedKeyListQuery = `
     query {
       getTimeSeriesAll {
@@ -112,6 +115,8 @@ const Home = () => {
     }
   `;
 
+  // This query fetches the full combined list from the API and sets the state.
+
   useEffect(() => {
     const fetchCountryData = async () => {
       setIsLoading(true);
@@ -123,6 +128,8 @@ const Home = () => {
     };
     fetchCountryData();
   }, []); // eslint-disable-line
+
+  // This calls the query to get the selected combinedKeys data from the API.
 
   useEffect(() => {
     const fetchHomeData = async () => {
@@ -159,9 +166,9 @@ const Home = () => {
     <PageContainer>
       <ContentSection column>
         <StyledForm>
-          <HomeDropdown stateUpdater={updateState} arr={combinedKeyList} type="countryRegion" />
-          {/* <HomeDropdown stateUpdater={updateState} arr={combinedKeyList} type="countryRegion" />
-        <HomeDropdown stateUpdater={updateState} arr={combinedKeyList} type="countryRegion" /> */}
+          <HomeDropdown stateUpdater={updateState} arr={combinedKeyList} type="countryRegion" countryRegion={countryRegion} />
+          <HomeDropdown stateUpdater={updateState} arr={combinedKeyList} type="provinceRegion" countryRegion={countryRegion} />
+          <HomeDropdown stateUpdater={updateState} arr={combinedKeyList} type="usStateArea" countryRegion={countryRegion} />
         </StyledForm>
         <HomeChartContainer>
           {isLoading ? (
