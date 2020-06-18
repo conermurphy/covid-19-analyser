@@ -88,17 +88,18 @@ const StyledForm = styled.form`
 
 const Home = () => {
   const API = 'https://covid-19-graphql-api.herokuapp.com/';
-  const defaultSelection = 'US';
+  const defaultSelection = 'Denmark';
 
   const [homeChartAPIData, setHomeChartAPIData] = useState();
   const [homeChartAPILabels, setHomeChartAPILabels] = useState();
-  const [combinedKey, setCombinedKey] = useState(defaultSelection); // Value used to query API for data
+  const [combinedKey, setCombinedKey] = useState('Denmark'); // Value used to query API for data
   const [combinedKeyList, setCombinedKeyList] = useState(); // Complete list of data for users to select from
   const [countryRegion, setCountryRegion] = useState(defaultSelection); // Country Region selected by the user.
-  const [provinceRegion, setProvinceRegion] = useState(); // Province Region set by the user.
-  const [provinceRegionList, setProvinceRegionList] = useState();
-  const [usStateArea, setUsStateArea] = useState();
+  const [provinceState, setProvinceState] = useState(''); // Province Region set by the user.
+  const [provinceStateList, setProvinceStateList] = useState();
+  const [usStateArea, setUsStateArea] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [fetchData, setFetchData] = useState(false);
 
   const combinedKeyListQuery = `
     query {
@@ -146,25 +147,48 @@ const Home = () => {
       const homeGraphData = await request(API, homeGraphDataQuery);
       const usableData = homeGraphData.getTimeSeries[0];
 
+      console.log(combinedKey);
+      console.log(homeGraphData);
+
       setHomeChartAPIData(usableData);
       setHomeChartAPILabels(Object.keys(usableData.confirmed));
 
       setIsLoading(false);
     };
     fetchHomeData();
-  }, [homeGraphDataQuery]);
+  }, [combinedKey, homeGraphDataQuery]);
 
   // query to retrieve province state list for the selected country region.
 
   useEffect(() => {
     const fetchProvinceState = async () => {
-      setIsLoading(true);
-
       const provinceStateData = await request(API, homeProvinceStateQuery);
-      setProvinceRegionList(provinceStateData.getProvinceState);
+      setProvinceStateList(provinceStateData.getProvinceState);
     };
     fetchProvinceState();
   }, [homeProvinceStateQuery]);
+
+  // useEffect to set combinedKey
+
+  useEffect(() => {
+    const combinedCR = countryRegion.replace(/([ ])/g, '-');
+    const combinedPS = provinceState.replace(/([ ])/g, '-');
+    const combinedUSA = usStateArea.replace(/([ ])/g, '-');
+
+    console.log(combinedCR);
+    console.log(combinedPS);
+
+    if (countryRegion !== 'US') {
+      if (provinceState === '') {
+        setCombinedKey(combinedCR);
+      } else {
+        setCombinedKey(`${combinedCR}-${combinedPS}`);
+      }
+    } else {
+      setCombinedKey(`${combinedUSA}-${combinedPS}-${combinedCR}`);
+    }
+    setFetchData(false);
+  }, [fetchData]); // eslint-disable-line
 
   // function passed to child home drop down menus to update state
 
@@ -174,7 +198,7 @@ const Home = () => {
         setCountryRegion(val);
         break;
       case 'provinceRegion':
-        setProvinceRegion(val);
+        setProvinceState(val);
         break;
       case 'usStateArea':
         setUsStateArea(val);
@@ -184,13 +208,21 @@ const Home = () => {
     }
   }
 
+  function handleClick(e) {
+    e.preventDefault();
+    setFetchData(true);
+  }
+
   return (
     <PageContainer>
       <ContentSection column>
         <StyledForm>
           <CountryRegionDropdown stateUpdater={updateState} arr={combinedKeyList} />
-          <ProvinceStateDropdown stateUpdater={updateState} arr={provinceRegionList} />
+          <ProvinceStateDropdown stateUpdater={updateState} arr={provinceStateList} />
           <USStateAreaDropdown stateUpdater={updateState} arr={combinedKeyList} />
+          <button type="button" onClick={handleClick}>
+            Fetch Data
+          </button>
         </StyledForm>
         <HomeChartContainer>
           {isLoading ? (
