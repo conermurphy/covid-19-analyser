@@ -96,6 +96,7 @@ const Home = () => {
   const [combinedKeyList, setCombinedKeyList] = useState(); // Complete list of data for users to select from
   const [countryRegion, setCountryRegion] = useState(defaultSelection); // Country Region selected by the user.
   const [provinceRegion, setProvinceRegion] = useState(); // Province Region set by the user.
+  const [provinceRegionList, setProvinceRegionList] = useState();
   const [usStateArea, setUsStateArea] = useState();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -117,7 +118,7 @@ const Home = () => {
     }
   `;
   const homeProvinceStateQuery = `query {
-    getProvinceState(countryRegion:"US") {
+    getProvinceState(countryRegion:"${countryRegion}") {
       provinceState
     }
   }`;
@@ -153,17 +154,19 @@ const Home = () => {
     fetchHomeData();
   }, [homeGraphDataQuery]);
 
-  // function passed to child home drop down menus to update state
+  // query to retrieve province state list for the selected country region.
 
   useEffect(() => {
     const fetchProvinceState = async () => {
       setIsLoading(true);
 
       const provinceStateData = await request(API, homeProvinceStateQuery);
-      const stateData = provinceStateData.getProvinceState;
+      setProvinceRegionList(provinceStateData.getProvinceState);
     };
     fetchProvinceState();
   }, [homeProvinceStateQuery]);
+
+  // function passed to child home drop down menus to update state
 
   function updateState(val, type) {
     switch (type) {
@@ -186,7 +189,7 @@ const Home = () => {
       <ContentSection column>
         <StyledForm>
           <CountryRegionDropdown stateUpdater={updateState} arr={combinedKeyList} />
-          <ProvinceStateDropdown stateUpdater={updateState} arr={combinedKeyList} />
+          <ProvinceStateDropdown stateUpdater={updateState} arr={provinceRegionList} />
           <USStateAreaDropdown stateUpdater={updateState} arr={combinedKeyList} />
         </StyledForm>
         <HomeChartContainer>

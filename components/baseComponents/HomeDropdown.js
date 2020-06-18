@@ -1,6 +1,7 @@
 import React from 'react';
 
 const HomeDropdown = ({ stateUpdater, arr, type }) => {
+  
   function handleChange(e) {
     const selectedVal = e.currentTarget.value;
     stateUpdater(selectedVal, type);
@@ -17,7 +18,7 @@ const HomeDropdown = ({ stateUpdater, arr, type }) => {
         break;
       case 'provinceRegion':
         formID = 'Province Region';
-        indArr = arr.map(a => a.provinceRegion);
+        indArr = arr.map(a => a.provinceState).filter(b => b !== '');
         indArr = Array.from(new Set(indArr));
         break;
       case 'usStateArea':
