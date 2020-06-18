@@ -98,6 +98,7 @@ const Home = () => {
   const [provinceState, setProvinceState] = useState(''); // Province Region set by the user.
   const [provinceStateList, setProvinceStateList] = useState();
   const [usStateArea, setUsStateArea] = useState('');
+  const [usStateAreaList, setUsStateAreaList] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const [fetchData, setFetchData] = useState(false);
 
@@ -124,6 +125,12 @@ const Home = () => {
     }
   }`;
 
+  const usSubStateAreaQuery = `query {
+    getUSSubStateLocations(provinceState:"${provinceState}") {
+      combinedKey
+    }
+  }`;
+
   // This query fetches the full combined list from the API and sets the state.
 
   useEffect(() => {
@@ -147,9 +154,6 @@ const Home = () => {
       const homeGraphData = await request(API, homeGraphDataQuery);
       const usableData = homeGraphData.getTimeSeries[0];
 
-      console.log(combinedKey);
-      console.log(homeGraphData);
-
       setHomeChartAPIData(usableData);
       setHomeChartAPILabels(Object.keys(usableData.confirmed));
 
@@ -168,6 +172,20 @@ const Home = () => {
     fetchProvinceState();
   }, [homeProvinceStateQuery]);
 
+  // query to get subState locations in US
+
+  useEffect(() => {
+    const fetchSubUSStateArea = async () => {
+      const subStateAreas = await request(API, usSubStateAreaQuery);
+      if (provinceState !== '') {
+        setUsStateAreaList(subStateAreas.getUSSubStateLocations);
+      } else {
+        setUsStateAreaList([]);
+      }
+    };
+    fetchSubUSStateArea();
+  }, [provinceState, usSubStateAreaQuery]);
+
   // useEffect to set combinedKey
 
   useEffect(() => {
@@ -175,16 +193,13 @@ const Home = () => {
     const combinedPS = provinceState.replace(/([ ])/g, '-');
     const combinedUSA = usStateArea.replace(/([ ])/g, '-');
 
-    console.log(combinedCR);
-    console.log(combinedPS);
-
     if (countryRegion !== 'US') {
       if (provinceState === '') {
         setCombinedKey(combinedCR);
       } else {
         setCombinedKey(`${combinedCR}-${combinedPS}`);
       }
-    } else {
+    } else if (provinceState !== '' && usStateArea !== '') {
       setCombinedKey(`${combinedUSA}-${combinedPS}-${combinedCR}`);
     }
     setFetchData(false);
@@ -219,7 +234,7 @@ const Home = () => {
         <StyledForm>
           <CountryRegionDropdown stateUpdater={updateState} arr={combinedKeyList} />
           <ProvinceStateDropdown stateUpdater={updateState} arr={provinceStateList} />
-          <USStateAreaDropdown stateUpdater={updateState} arr={combinedKeyList} />
+          <USStateAreaDropdown stateUpdater={updateState} arr={usStateAreaList} />
           <button type="button" onClick={handleClick}>
             Fetch Data
           </button>
