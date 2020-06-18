@@ -90,17 +90,23 @@ const Home = () => {
   const API = 'https://covid-19-graphql-api.herokuapp.com/';
   const defaultSelection = 'Denmark';
 
+  // State for home chart
   const [homeChartAPIData, setHomeChartAPIData] = useState();
   const [homeChartAPILabels, setHomeChartAPILabels] = useState();
-  const [combinedKey, setCombinedKey] = useState('Denmark'); // Value used to query API for data
+  // State for getting complete list of data points
+  const [combinedKey, setCombinedKey] = useState(defaultSelection); // Value used to query API for data
   const [combinedKeyList, setCombinedKeyList] = useState(); // Complete list of data for users to select from
+  // State related to home chart dropdowns
   const [countryRegion, setCountryRegion] = useState(defaultSelection); // Country Region selected by the user.
   const [provinceState, setProvinceState] = useState(''); // Province Region set by the user.
   const [provinceStateList, setProvinceStateList] = useState();
   const [usStateArea, setUsStateArea] = useState('');
   const [usStateAreaList, setUsStateAreaList] = useState();
+  // Loading Related State
   const [isLoading, setIsLoading] = useState(false);
   const [fetchData, setFetchData] = useState(false);
+
+  // Queries for fetching data
 
   const combinedKeyListQuery = `
     query {
@@ -131,7 +137,7 @@ const Home = () => {
     }
   }`;
 
-  // This query fetches the full combined list from the API and sets the state.
+  // This function fetches the full combined list from the API and sets the state.
 
   useEffect(() => {
     const fetchCountryData = async () => {
@@ -222,6 +228,8 @@ const Home = () => {
         break;
     }
   }
+
+  // handle click for submit of data load request
 
   function handleClick(e) {
     e.preventDefault();
