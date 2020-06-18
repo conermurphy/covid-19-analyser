@@ -146,6 +146,8 @@ const Home = () => {
     fetchHomeData();
   }, [homeGraphDataQuery]);
 
+  // function passed to child home drop down menus to update state
+
   function updateState(val, type) {
     switch (type) {
       case 'countryRegion':
