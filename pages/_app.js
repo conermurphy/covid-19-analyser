@@ -44,7 +44,7 @@ const GlobalStyle = createGlobalStyle`
     font-size: 1.5rem;
     font-weight: 600;
   }
-  p, select {
+  p, select, button {
     font-size: 1rem;
     line-height: 1.4;
     font-weight: 400;
