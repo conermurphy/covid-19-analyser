@@ -152,12 +152,8 @@ const Home = () => {
 
   useEffect(() => {
     const fetchCountryData = async () => {
-      setIsLoading(true);
-
       const combinedKeyListData = await request(API, combinedKeyListQuery);
       setCombinedKeyList(combinedKeyListData.getTimeSeriesAll);
-
-      setIsLoading(false);
     };
     fetchCountryData();
   }, []); // eslint-disable-line
@@ -177,7 +173,7 @@ const Home = () => {
       setIsLoading(false);
     };
     fetchHomeData();
-  }, [combinedKey, homeGraphDataQuery]);
+  }, [combinedKey, fetchData, homeGraphDataQuery]);
 
   // query to retrieve province state list for the selected country region.
 
@@ -203,24 +199,26 @@ const Home = () => {
     fetchSubUSStateArea();
   }, [provinceState, usSubStateAreaQuery]);
 
-  // useEffect to set combinedKey
+  // function to set combined ke
 
   useEffect(() => {
-    const combinedCR = countryRegion.replace(/([ ])/g, '-');
-    const combinedPS = provinceState.replace(/([ ])/g, '-');
-    const combinedUSA = usStateArea.replace(/([ ])/g, '-');
+    const handleDataChange = () => {
+      const combinedCR = countryRegion.replace(/([ ])/g, '-');
+      const combinedPS = provinceState.replace(/([ ])/g, '-');
+      const combinedUSA = usStateArea.replace(/([ ])/g, '-');
 
-    if (countryRegion !== 'US' || provinceState === 'Please select your Province Region') {
-      if (provinceState === '' || provinceState === 'Please select your Province Region') {
-        setCombinedKey(combinedCR);
-      } else {
-        setCombinedKey(`${combinedCR}-${combinedPS}`);
+      if (countryRegion !== 'US' || provinceState === 'Please select your Province Region') {
+        if (provinceState === '' || provinceState === 'Please select your Province Region') {
+          setCombinedKey(combinedCR);
+        } else {
+          setCombinedKey(`${combinedCR}-${combinedPS}`);
+        }
+      } else if (provinceState !== '' && usStateArea !== '') {
+        setCombinedKey(`${combinedUSA}-${combinedPS}-${combinedCR}`);
       }
-    } else if (provinceState !== '' && usStateArea !== '') {
-      setCombinedKey(`${combinedUSA}-${combinedPS}-${combinedCR}`);
-    }
-    console.log(combinedKey);
-    setFetchData(false);
+      setFetchData(false);
+    };
+    handleDataChange();
   }, [fetchData]); // eslint-disable-line
 
   // function passed to child home drop down menus to update state
@@ -260,12 +258,7 @@ const Home = () => {
           </StyledButton>
         </StyledForm>
         <HomeChartContainer>
-          {isLoading ? (
-            <p>Loading Data...</p>
-          ) : (
-            <HomeChart data={homeChartAPIData} labels={homeChartAPILabels} isLoading={isLoading} combinedKey={combinedKey} />
-          )}
-          <canvas id="homeChart"></canvas>;
+          {isLoading ? <p>Loading Data...</p> : <HomeChart data={homeChartAPIData} labels={homeChartAPILabels} combinedKey={combinedKey} />}
         </HomeChartContainer>
       </ContentSection>
       <ContentSection id="covid" coloured beforeEl>
