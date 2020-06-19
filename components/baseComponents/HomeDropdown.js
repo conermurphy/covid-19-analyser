@@ -46,7 +46,11 @@ const HomeDropdown = ({ stateUpdater, arr, type }) => {
       </select>
     );
   }
-  return null;
+  return (
+    <select name="Placeholder" id="placeholder">
+      <option value="Loading Data..."></option>
+    </select>
+  );
 };
 
 export default HomeDropdown;
