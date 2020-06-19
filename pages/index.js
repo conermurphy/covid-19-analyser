@@ -75,7 +75,7 @@ const StyledForm = styled.form`
   margin: 1rem;
 
   & > select {
-    max-width: 20%;
+    max-width: 17.5%;
     height: 2.5rem;
     margin: 0 1.5rem;
     border: 2px solid ${props => props.theme.accent};
@@ -84,6 +84,17 @@ const StyledForm = styled.form`
     box-shadow: ${props => props.theme.bs};
     padding: 0 0.5rem;
   }
+`;
+
+const StyledButton = styled.button`
+  max-width: 10%;
+  height: 2.5rem;
+  margin: 0 1.5rem;
+  border: 2px solid ${props => props.theme.offWhite};
+  border-radius: 0.5rem;
+  background-color: ${props => props.theme.accent};
+  box-shadow: ${props => props.theme.bs};
+  padding: 0 0.5rem;
 `;
 
 const Home = () => {
@@ -244,9 +255,9 @@ const Home = () => {
           <CountryRegionDropdown stateUpdater={updateState} arr={combinedKeyList} />
           <ProvinceStateDropdown stateUpdater={updateState} arr={provinceStateList} />
           <USStateAreaDropdown stateUpdater={updateState} arr={usStateAreaList} />
-          <button type="button" onClick={handleClick}>
+          <StyledButton type="button" onClick={handleClick}>
             Fetch Data
-          </button>
+          </StyledButton>
         </StyledForm>
         <HomeChartContainer>
           {isLoading ? (
