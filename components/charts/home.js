@@ -1,16 +1,16 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import Chart from 'chart.js';
 
 const HomeChart = ({ data, labels, combinedKey }) => {
   const homeChartRef = useRef(null);
-  const [homeChart, setHomeChart] = useState();
   useEffect(() => {
     if (typeof window !== 'undefined' && data) {
+      if (typeof homeChart !== 'undefined') {
+        homeChart.destroy();
+      }
       let confirmedData;
       let deadData;
       let recoveredData;
-
-      console.log(data);
 
       for (const el in data) {
         confirmedData = data.confirmed ? Object.values(data.confirmed) : 'null';
@@ -65,14 +65,14 @@ const HomeChart = ({ data, labels, combinedKey }) => {
         ],
       };
 
-      setHomeChart(
-        new Chart(homeChartRef.current, {
-          type: 'line',
-          data: homeChartData,
-          options: homeChartOptions,
-        })
-      );
+      const homeChart = new Chart(homeChartRef.current, {
+        type: 'line',
+        data: homeChartData,
+        options: homeChartOptions,
+      });
+
       if (typeof homeChart !== 'undefined') {
+        homeChart.data = homeChartData;
         homeChart.update();
       }
     }

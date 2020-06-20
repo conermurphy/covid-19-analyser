@@ -172,8 +172,9 @@ const Home = () => {
 
       setIsLoading(false);
     };
+
     fetchHomeData();
-  }, [combinedKey, fetchData, homeGraphDataQuery]);
+  }, [homeGraphDataQuery]);
 
   // query to retrieve province state list for the selected country region.
 
