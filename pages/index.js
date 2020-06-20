@@ -234,14 +234,14 @@ const Home = () => {
     setFetchData(true);
   }
 
-  console.log(countryRegion);
+  console.log(provinceStateList);
 
   return (
     <PageContainer>
       <ContentSection column>
         <StyledForm>
           <HomeDropdown stateUpdater={updateState} arr={combinedKeyList} type="countryRegion" disabled={false} />
-          {provinceStateList ? (
+          {typeof provinceStateList !== 'undefined' && provinceStateList.length > 1 ? (
             <HomeDropdown stateUpdater={updateState} arr={provinceStateList} type="provinceState" disabled={false} />
           ) : (
             <HomeDropdown stateUpdater={updateState} arr={provinceStateList} type="provinceState" disabled />

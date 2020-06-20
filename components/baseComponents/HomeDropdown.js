@@ -19,8 +19,6 @@ const HomeDropdown = ({ stateUpdater, arr, type, disabled }) => {
     stateUpdater(selectedVal, type);
   }
 
-  console.log(disabled);
-
   if (typeof arr !== 'undefined') {
     let indArr;
     let formID;
