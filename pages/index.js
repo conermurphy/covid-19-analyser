@@ -2,9 +2,7 @@ import styled from 'styled-components';
 import { request } from 'graphql-request';
 import React, { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
-import CountryRegionDropdown from '../components/CountryRegionDropdown';
-import ProvinceStateDropdown from '../components/ProvinceStateDropdown';
-import USStateAreaDropdown from '../components/USStateAreaDropdown';
+import HomeDropdown from '../components/baseComponents/HomeDropdown';
 
 const HomeChart = dynamic(() => import('../components/charts/home.js'), { srr: false });
 
@@ -73,17 +71,6 @@ const StyledForm = styled.form`
   height: auto;
   width: 100%;
   margin: 1rem;
-
-  & > select {
-    max-width: 17.5%;
-    height: 2.5rem;
-    margin: 0 1.5rem;
-    border: 2px solid ${props => props.theme.accent};
-    border-radius: 0.5rem;
-    background-color: ${props => props.theme.offWhite};
-    box-shadow: ${props => props.theme.bs};
-    padding: 0 0.5rem;
-  }
 `;
 
 const StyledButton = styled.button`
@@ -229,7 +216,7 @@ const Home = () => {
       case 'countryRegion':
         setCountryRegion(val);
         break;
-      case 'provinceRegion':
+      case 'provinceState':
         setProvinceState(val);
         break;
       case 'usStateArea':
@@ -247,13 +234,23 @@ const Home = () => {
     setFetchData(true);
   }
 
+  console.log(countryRegion);
+
   return (
     <PageContainer>
       <ContentSection column>
         <StyledForm>
-          <CountryRegionDropdown stateUpdater={updateState} arr={combinedKeyList} />
-          <ProvinceStateDropdown stateUpdater={updateState} arr={provinceStateList} />
-          <USStateAreaDropdown stateUpdater={updateState} arr={usStateAreaList} />
+          <HomeDropdown stateUpdater={updateState} arr={combinedKeyList} type="countryRegion" disabled={false} />
+          {provinceStateList ? (
+            <HomeDropdown stateUpdater={updateState} arr={provinceStateList} type="provinceState" disabled={false} />
+          ) : (
+            <HomeDropdown stateUpdater={updateState} arr={provinceStateList} type="provinceState" disabled />
+          )}
+          {countryRegion !== 'US' ? (
+            <HomeDropdown stateUpdater={updateState} arr={usStateAreaList} type="usStateArea" disabled />
+          ) : (
+            <HomeDropdown stateUpdater={updateState} arr={usStateAreaList} type="usStateArea" disabled={false} />
+          )}
           <StyledButton type="button" onClick={handleClick}>
             Fetch Data
           </StyledButton>

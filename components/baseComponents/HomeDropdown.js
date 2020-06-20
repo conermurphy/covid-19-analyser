@@ -1,10 +1,25 @@
 import React from 'react';
+import styled from 'styled-components';
 
-const HomeDropdown = ({ stateUpdater, arr, type }) => {
+const StyledSelect = styled.select`
+  max-width: 17.5%;
+  height: 2.5rem;
+  margin: 0 1.5rem;
+  border: 2px solid ${props => props.theme.accent};
+  border-radius: 0.5rem;
+  background-color: ${props => props.theme.offWhite};
+  opacity: ${props => (props.disabled ? '50%' : '100%')};
+  box-shadow: ${props => props.theme.bs};
+  padding: 0 0.5rem;
+`;
+
+const HomeDropdown = ({ stateUpdater, arr, type, disabled }) => {
   function handleChange(e) {
     const selectedVal = e.currentTarget.value;
     stateUpdater(selectedVal, type);
   }
+
+  console.log(disabled);
 
   if (typeof arr !== 'undefined') {
     let indArr;
@@ -15,8 +30,8 @@ const HomeDropdown = ({ stateUpdater, arr, type }) => {
         indArr = arr.map(a => a.countryRegion);
         indArr = Array.from(new Set(indArr));
         break;
-      case 'provinceRegion':
-        formID = 'Province Region';
+      case 'provinceState':
+        formID = 'Province State';
         indArr = arr
           .map(a => a.provinceState)
           .filter(b => b !== '')
@@ -36,20 +51,20 @@ const HomeDropdown = ({ stateUpdater, arr, type }) => {
     }
 
     return (
-      <select name={type} id={type} onChange={handleChange}>
+      <StyledSelect name={type} id={type} onChange={handleChange} disabled={disabled}>
         <option value={`Please select your ${formID}`} selected="selected">{`Please select your ${formID}`}</option>
         {indArr.map(a => (
           <option value={a} key={a}>
             {a}
           </option>
         ))}
-      </select>
+      </StyledSelect>
     );
   }
   return (
-    <select name="Placeholder" id="placeholder">
+    <StyledSelect name="Placeholder" id="placeholder">
       <option value="Loading Data..."></option>
-    </select>
+    </StyledSelect>
   );
 };
 
