@@ -234,8 +234,6 @@ const Home = () => {
     setFetchData(true);
   }
 
-  console.log(provinceStateList);
-
   return (
     <PageContainer>
       <ContentSection column>
