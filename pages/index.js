@@ -219,15 +219,27 @@ const Home = () => {
       const combinedPS = provinceState.replace(/([ ])/g, '-');
       const combinedUSA = usStateArea.replace(/([ ])/g, '-');
 
-      if (countryRegion !== 'US' || provinceState === 'Please select your Province Region') {
-        if (provinceState === '' || provinceState === 'Please select your Province Region') {
-          setCombinedKey(combinedCR);
-        } else {
-          setCombinedKey(`${combinedCR}-${combinedPS}`);
-        }
-      } else if (provinceState !== '' && usStateArea !== '') {
-        setCombinedKey(`${combinedUSA}-${combinedPS}-${combinedCR}`);
+
+      // if (countryRegion !== 'US' || provinceState === 'Please select your Province Region') {
+      //   if (provinceState === '' || provinceState === 'Please select your Province Region') {
+      //     setCombinedKey(combinedCR);
+      //   } else {
+      //     setCombinedKey(`${combinedCR}-${combinedPS}`);
+      //   }
+      // } else if ((provinceState !== '' && usStateArea === '') || provinceState === usStateArea) {
+      //   setCombinedKey(`${combinedPS}-${combinedCR}`);
+      // } else if (provinceState !== '' && usStateArea !== '') {
+      //   setCombinedKey(`${combinedUSA}-${combinedPS}-${combinedCR}`);
+      // }
+
+      if (countryRegion === 'US') {
+
       }
+
+      if (provinceState === '' || provinceState === 'Please select your Province Region')
+
+
+      console.log(combinedKey);
       setFetchData(false);
     };
     handleDataChange();
