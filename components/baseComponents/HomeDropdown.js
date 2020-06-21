@@ -13,7 +13,7 @@ const StyledSelect = styled.select`
   padding: 0 0.5rem;
 `;
 
-const HomeDropdown = ({ stateUpdater, arr, type, disabled }) => {
+const HomeDropdown = ({ stateUpdater, arr, type, disabled, defaultSelection }) => {
   function handleChange(e) {
     const selectedVal = e.currentTarget.value;
     stateUpdater(selectedVal, type);
@@ -51,11 +51,20 @@ const HomeDropdown = ({ stateUpdater, arr, type, disabled }) => {
     return (
       <StyledSelect name={type} id={type} onChange={handleChange} disabled={disabled}>
         <option value={`Please select your ${formID}`} selected="selected">{`Please select your ${formID}`}</option>
-        {indArr.map(a => (
-          <option value={a} key={a}>
-            {a}
-          </option>
-        ))}
+        {indArr.map(a => {
+          if (a === defaultSelection) {
+            return (
+              <option value={a} key={a} selected={defaultSelection}>
+                {a}
+              </option>
+            );
+          }
+          return (
+            <option value={a} key={a}>
+              {a}
+            </option>
+          );
+        })}
       </StyledSelect>
     );
   }

@@ -238,7 +238,13 @@ const Home = () => {
     <PageContainer>
       <ContentSection column>
         <StyledForm>
-          <HomeDropdown stateUpdater={updateState} arr={combinedKeyList} type="countryRegion" disabled={false} />
+          <HomeDropdown
+            stateUpdater={updateState}
+            arr={combinedKeyList}
+            type="countryRegion"
+            disabled={false}
+            defaultSelection={defaultSelection}
+          />
           {typeof provinceStateList !== 'undefined' && provinceStateList.length > 1 ? (
             <HomeDropdown stateUpdater={updateState} arr={provinceStateList} type="provinceState" disabled={false} />
           ) : (
