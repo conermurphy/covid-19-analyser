@@ -6,6 +6,7 @@ const UKUSConfirmedChart = ({ API }) => {
   const UKUSConfirmedChartRef = useRef(null);
   const [UKConfirmedData, setUKConfirmedData] = useState();
   const [USConfirmedData, setUSConfirmedData] = useState();
+  const [chartLabels, setChartLabels] = useState();
 
   async function getConfirmedData(combinedKey) {
     const data = await request(
@@ -28,13 +29,14 @@ const UKUSConfirmedChart = ({ API }) => {
               try {
                 const rawData = await getConfirmedData(CR);
                 const data = rawData.getTimeSeries[0].confirmed;
+                setChartLabels(Object.keys(data));
                 switch (CR) {
                   case 'United-Kingdom':
-                    setUKConfirmedData(data);
+                    setUKConfirmedData(Object.values(data));
                     res();
                     break;
                   case 'US':
-                    setUSConfirmedData(data);
+                    setUSConfirmedData(Object.values(data));
                     res();
                     break;
                   default:
@@ -51,21 +53,52 @@ const UKUSConfirmedChart = ({ API }) => {
     fetchUKUSConfirmedData();
   }, []); // eslint-disable-line
 
+  const pointRadius = 1;
+  const borderWidth = 2;
+  const lineTension = 0;
+
   useEffect(() => {
     if (typeof window !== 'undefined') {
       if (typeof UKUSConfirmedChart !== 'undefined') {
         UKUSConfirmedChart.destroy();
       }
 
+      const data = {
+        labels: chartLabels,
+        datasets: [
+          {
+            label: 'UK: Confirmed',
+            backgroundColor: '#ABD1B5',
+            borderColor: '#ABD1B5',
+            borderWidth,
+            pointRadius,
+            fill: 'none',
+            lineTension,
+            data: UKConfirmedData,
+          },
+          {
+            label: 'US: Confirmed',
+            backgroundColor: '#F1887E',
+            borderColor: '#F1887E',
+            borderWidth,
+            pointRadius,
+            fill: 'none',
+            lineTension,
+            data: USConfirmedData,
+          },
+        ],
+      };
+
       const UKUSConfirmedChart = new Chart(UKUSConfirmedChartRef.current, {
         type: 'line',
+        data,
       });
 
       if (typeof UKUSConfirmedChart !== 'undefined') {
         UKUSConfirmedChart.update();
       }
     }
-  }, []);
+  }, [UKConfirmedData, USConfirmedData, chartLabels]);
   return <canvas ref={UKUSConfirmedChartRef}></canvas>;
 };
 
