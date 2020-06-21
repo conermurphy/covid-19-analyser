@@ -5,6 +5,7 @@ import dynamic from 'next/dynamic';
 import HomeDropdown from '../components/baseComponents/HomeDropdown';
 
 const HomeChart = dynamic(() => import('../components/charts/home.js'), { srr: false });
+const TotalPieChart = dynamic(() => import('../components/charts/totalPieChart.js'), { srr: false });
 
 const PageContainer = styled.div`
   display: flex;
@@ -88,10 +89,8 @@ const StatusSVG = styled.svg`
 const CovidCanvasContainer = styled.div`
   position: relative;
   margin: auto;
-  height: 20vw;
-  width: 10%;
-  max-width: 400px;
-  background-color: blue;
+  height: auto;
+  width: 20%;
 `;
 
 const StyledForm = styled.form`
@@ -336,7 +335,7 @@ const Home = () => {
           </p>
         </TextContent>
         <CovidCanvasContainer>
-          <canvas id="covidChart"></canvas>
+          <TotalPieChart API={API} />
         </CovidCanvasContainer>
       </ContentSection>
       <ContentSection id="about">
