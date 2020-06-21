@@ -54,10 +54,21 @@ const HomeDropdown = ({ stateUpdater, arr, type, disabled, defaultSelection }) =
       default:
         break;
     }
-
+    if (defaultSelection) {
+      return (
+        <StyledSelect name={type} id={type} onChange={handleChange} disabled={disabled} value={displayedCountry}>
+          <option value="">{`Please select your ${formID}`}</option>
+          {indArr.map(a => (
+            <option value={a} key={a}>
+              {a}
+            </option>
+          ))}
+        </StyledSelect>
+      );
+    }
     return (
-      <StyledSelect name={type} id={type} onChange={handleChange} disabled={disabled} value={displayedCountry}>
-        <option value="" selected="selected">{`Please select your ${formID}`}</option>
+      <StyledSelect name={type} id={type} onChange={handleChange} disabled={disabled}>
+        <option value="">{`Please select your ${formID}`}</option>
         {indArr.map(a => (
           <option value={a} key={a}>
             {a}

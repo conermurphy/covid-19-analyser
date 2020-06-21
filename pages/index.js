@@ -223,7 +223,6 @@ const Home = () => {
         if (combinedPS === '' && combinedUSA === '') {
           setCombinedKey(`${combinedCR}`);
         } else if ((combinedPS !== '' && combinedUSA === '') || combinedPS === combinedUSA) {
-          console.log(true);
           setCombinedKey(`${combinedPS}-${combinedCR}`);
         } else if (combinedPS !== '' && combinedUSA !== '') {
           setCombinedKey(`${combinedUSA}-${combinedPS}-${combinedCR}`);
