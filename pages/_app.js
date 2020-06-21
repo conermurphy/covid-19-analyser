@@ -26,7 +26,6 @@ const GlobalStyle = createGlobalStyle`
     font-display: fallback;
   }
   body {
-    scroll-padding-top: 7.5rem;
     box-sizing: border-box;
     margin: auto;
     margin-top: 5rem;

@@ -20,7 +20,7 @@ const ContentSection = styled.section`
   width: 100%;
   background-color: ${props => (props.coloured ? props.theme.primary : props.theme.coloured)};
   background: ${props => (props.coloured ? 'linear-gradient(180deg, rgba(215,212,237,1) 75%, rgba(254,254,254,1) 95%)' : 'none')};
-  padding: 2.5rem 0;
+  padding: 5rem 0;
   position: relative;
 
   * {
@@ -29,11 +29,19 @@ const ContentSection = styled.section`
 
   ::before {
     content: url('./beforeEl.svg');
-    display: ${props => (props.beforeEl ? 'conents' : 'none')};
+    display: ${props => (props.beforeEl ? 'block' : 'none')};
     width: 100%;
     top: -270px;
     position: absolute;
     z-index: -1;
+  }
+
+  :first-child {
+    padding-top: 2.5rem;
+  }
+
+  :last-child {
+    padding-top: 2.5rem;
   }
 `;
 
