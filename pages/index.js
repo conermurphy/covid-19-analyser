@@ -316,15 +316,23 @@ const Home = () => {
       <ContentSection id="covid" coloured beforeEl>
         <TextContent left>
           <h2>COVID-19</h2>
+          <p>Coronavirus disease (COVID-19) is an infectious disease caused by a newly discovered coronavirus.</p>
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque tortor orci, porta a mollis in, vestibulum at sapien. Maecenas
-            ut laoreet eros, id pharetra libero. Aenean ex justo, laoreet id fermentum vel, rhoncus placerat metus. Morbi sed blandit ipsum.
-            Sed sit amet magna nec metus feugiat molestie quis sed lectus. Nam vitae diam nisi. Sed tincidunt consequat felis, nec tristique
-            nisl malesuada tincidunt. Morbi pretium turpis et dolor venenatis fermentum. In hac habitasse platea dictumst. Vestibulum
-            posuere enim elit, id consectetur sem varius eget. In nunc nibh, vehicula ut purus eu, laoreet maximus dolor. Fusce suscipit
-            elementum eros. In consequat vitae risus laoreet rhoncus. Donec placerat, nisl ut ornare vulputate, mauris felis congue turpis,
-            in commodo metus mauris ut ligula. Suspendisse vitae tortor lacus. Suspendisse at sem ac arcu tristique scelerisque id vitae
-            lorem.{' '}
+            The best way to prevent and slow down transmission is be well informed about the COVID-19 virus, the disease it causes and how
+            it spreads. Protect yourself and others from infection by washing your hands or using an alcohol based rub frequently and not
+            touching your face.{' '}
+          </p>
+          <p>
+            The COVID-19 virus spreads primarily through droplets of saliva or discharge from the nose when an infected person coughs or
+            sneezes, so it’s important that you also practice respiratory etiquette (for example, by coughing into a flexed elbow).
+          </p>
+          <p>
+            <i>
+              Information above provided by{' '}
+              <b>
+                <a href="https://www.who.int/health-topics/coronavirus#tab=tab_1">World Health Organization. Read more.</a>
+              </b>
+            </i>
           </p>
         </TextContent>
         <CovidCanvasContainer>
@@ -336,27 +344,37 @@ const Home = () => {
           <canvas id="covidChart"></canvas>
         </CovidCanvasContainer>
         <TextContent right>
-          <h2>About</h2>
+          <h2>About This Site</h2>
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque tortor orci, porta a mollis in, vestibulum at sapien. Maecenas
-            ut laoreet eros, id pharetra libero. Aenean ex justo, laoreet id fermentum vel, rhoncus placerat metus. Morbi sed blandit ipsum.
-            Sed sit amet magna nec metus feugiat molestie quis sed lectus. Nam vitae diam nisi. Sed tincidunt consequat felis, nec tristique
-            nisl malesuada tincidunt. Morbi pretium turpis et dolor venenatis fermentum. In hac habitasse platea dictumst. Vestibulum
-            posuere enim elit, id consectetur sem varius eget. In nunc nibh, vehicula ut purus eu, laoreet maximus dolor. Fusce suscipit
-            elementum eros. In consequat vitae risus laoreet rhoncus. Donec placerat, nisl ut ornare vulputate, mauris felis congue turpis,
-            in commodo metus mauris ut ligula. Suspendisse vitae tortor lacus. Suspendisse at sem ac arcu tristique scelerisque id vitae
-            lorem.{' '}
+            I put this site together as a landing page for the API I made to provide information on the COVID-19 pandemic gripping the world
+            in 2020. The API was a great learning project and is completely free to use in your own projects, if you're interested in giving
+            it a shot, you can find it <a href="">here.</a>
           </p>
+          <p>
+            If you're interested in contributing to the project or just want to give the code a read over, you can find links to both this
+            landing page and the API on my{' '}
+            <a href="">
+              <b>Github.</b>
+            </a>
+          </p>
+          <ul>
+            <li>
+              <a href="">
+                <b>Front-End</b>
+              </a>
+            </li>
+            <li>
+              <a href="">
+                <b>API</b>
+              </a>
+            </li>
+          </ul>
         </TextContent>
       </ContentSection>
       <ContentSection id="examples" coloured column beforeEl>
         <TextContent style={{ textAlign: 'center', width: '50%', margin: 'auto', paddingBottom: '2rem' }}>
-          <h2>Examples</h2>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque tortor orci, porta a mollis in, vestibulum at sapien. Maecenas
-            ut laoreet eros, id pharetra libero. Aenean ex justo, laoreet id fermentum vel, rhoncus placerat metus. Morbi sed blandit ipsum.
-            Sed sit amet magna nec metus feugiat molestie quis sed lectus. Nam vitae diam nisi.
-          </p>
+          <h2>More Examples</h2>
+          <p>Here's some more examples of charts made using the data provided by the API.</p>
         </TextContent>
         <div style={{ display: 'flex', flexDirection: 'row', width: '75%', margin: 'auto' }}>
           <CovidCanvasContainer>
