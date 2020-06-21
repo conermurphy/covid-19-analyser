@@ -2,8 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { request } from 'graphql-request';
 import Chart from 'chart.js';
 
-const TotalPieChart = ({ API }) => {
-  const totalPieChartRef = useRef(null);
+const TotalChart = ({ API }) => {
+  const totalChartRef = useRef(null);
   const [totalDead, setTotalDead] = useState();
   const [totalConfirmed, setTotalConfirmed] = useState();
   const [totalRecovered, setTotalRecovered] = useState();
@@ -35,10 +35,7 @@ const TotalPieChart = ({ API }) => {
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      if (typeof homeChart !== 'undefined') {
-        totalPieChart.destroy();
-      }
-      const pieChartOptions = {
+      const totalChartOptions = {
         title: {
           display: true,
           fontSize: 20,
@@ -47,7 +44,7 @@ const TotalPieChart = ({ API }) => {
         },
       };
 
-      const pieChartData = {
+      const totalChartData = {
         datasets: [
           {
             label: 'Cases',
@@ -58,17 +55,18 @@ const TotalPieChart = ({ API }) => {
         labels: ['Confirmed', 'Recovered', 'Dead'],
       };
 
-      const totalPieChart = new Chart(totalPieChartRef.current, {
-        type: 'doughnut',
-        data: pieChartData,
-        options: pieChartOptions,
+      const totalChart = new Chart(totalChartRef.current, {
+        type: 'bar',
+        data: totalChartData,
+        options: totalChartOptions,
       });
-      if (typeof homeChart !== 'undefined') {
-        totalPieChart.update();
+
+      if (typeof totalChart !== 'undefined') {
+        totalChart.update();
       }
     }
-  }, [totalConfirmed, totalDead, totalRecovered]);
-  return <canvas ref={totalPieChartRef}></canvas>;
+  }, []); // eslint-disable-line
+  return <canvas ref={totalChartRef}></canvas>;
 };
 
-export default TotalPieChart;
+export default TotalChart;
