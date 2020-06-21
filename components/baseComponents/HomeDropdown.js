@@ -53,7 +53,7 @@ const HomeDropdown = ({ stateUpdater, arr, type, disabled, defaultSelection }) =
 
     return (
       <StyledSelect name={type} id={type} onChange={handleChange} disabled={disabled} value={displayedCountry}>
-        <option value={`Please select your ${formID}`} selected="selected">{`Please select your ${formID}`}</option>
+        <option value="" selected="selected">{`Please select your ${formID}`}</option>
         {indArr.map(a => (
           <option value={a} key={a}>
             {a}
