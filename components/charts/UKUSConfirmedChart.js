@@ -1,0 +1,72 @@
+import React, { useState, useEffect, useRef } from 'react';
+import { request } from 'graphql-request';
+import Chart from 'chart.js';
+
+const UKUSConfirmedChart = ({ API }) => {
+  const UKUSConfirmedChartRef = useRef(null);
+  const [UKConfirmedData, setUKConfirmedData] = useState();
+  const [USConfirmedData, setUSConfirmedData] = useState();
+
+  async function getConfirmedData(combinedKey) {
+    const data = await request(
+      API,
+      `query {
+      getTimeSeries(combinedKey:"${combinedKey}") {
+        confirmed
+      }
+    }`
+    );
+    return data;
+  }
+
+  useEffect(() => {
+    const fetchUKUSConfirmedData = async () =>
+      Promise.all(
+        ['United-Kingdom', 'US'].map(
+          CR =>
+            new Promise(async (res, rej) => {
+              try {
+                const rawData = await getConfirmedData(CR);
+                const data = rawData.getTimeSeries[0].confirmed;
+                switch (CR) {
+                  case 'United-Kingdom':
+                    setUKConfirmedData(data);
+                    res();
+                    break;
+                  case 'US':
+                    setUSConfirmedData(data);
+                    res();
+                    break;
+                  default:
+                    break;
+                }
+              } catch (err) {
+                console.error(err);
+                rej(err);
+              }
+            })
+        )
+      );
+
+    fetchUKUSConfirmedData();
+  }, []); // eslint-disable-line
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      if (typeof UKUSConfirmedChart !== 'undefined') {
+        UKUSConfirmedChart.destroy();
+      }
+
+      const UKUSConfirmedChart = new Chart(UKUSConfirmedChartRef.current, {
+        type: 'line',
+      });
+
+      if (typeof UKUSConfirmedChart !== 'undefined') {
+        UKUSConfirmedChart.update();
+      }
+    }
+  }, []);
+  return <canvas ref={UKUSConfirmedChartRef}></canvas>;
+};
+
+export default UKUSConfirmedChart;

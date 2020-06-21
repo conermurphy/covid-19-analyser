@@ -6,6 +6,7 @@ import HomeDropdown from '../components/baseComponents/HomeDropdown';
 
 const HomeChart = dynamic(() => import('../components/charts/home.js'), { srr: false });
 const TotalPieChart = dynamic(() => import('../components/charts/totalPieChart.js'), { srr: false });
+const UKUSCombinedChart = dynamic(() => import('../components/charts/UKUSConfirmedChart.js'), { srr: false });
 
 const PageContainer = styled.div`
   display: flex;
@@ -377,7 +378,7 @@ const Home = () => {
         </TextContent>
         <div style={{ display: 'flex', flexDirection: 'row', width: '75%', margin: 'auto' }}>
           <CovidCanvasContainer>
-            <canvas id="covidChart"></canvas>
+            <UKUSCombinedChart API={API} />
           </CovidCanvasContainer>
           <CovidCanvasContainer>
             <canvas id="covidChart"></canvas>
