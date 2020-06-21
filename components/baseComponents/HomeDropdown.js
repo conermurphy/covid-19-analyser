@@ -19,6 +19,10 @@ const HomeDropdown = ({ stateUpdater, arr, type, disabled, defaultSelection }) =
   function handleChange(e) {
     const selectedVal = e.currentTarget.value;
     setDisplayedCountry(e.currentTarget.value);
+    if (e.currentTarget.id === 'countryRegion') {
+      stateUpdater('', 'provinceState');
+      stateUpdater('', 'usStateArea');
+    }
     stateUpdater(selectedVal, type);
   }
 
