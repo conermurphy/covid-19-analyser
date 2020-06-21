@@ -65,7 +65,7 @@ const TotalChart = ({ API }) => {
         totalChart.update();
       }
     }
-  }, []); // eslint-disable-line
+  }, [totalConfirmed, totalDead, totalRecovered]);
   return <canvas ref={totalChartRef}></canvas>;
 };
 
