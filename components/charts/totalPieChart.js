@@ -29,25 +29,28 @@ const TotalPieChart = ({ API }) => {
     };
 
     fetchTotalData();
-  });
+  }, [API, totalDataQuery]);
 
   // useEffect to render chart.
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
+      if (typeof homeChart !== 'undefined') {
+        totalPieChart.destroy();
+      }
       const pieChartOptions = {
         title: {
           display: true,
           fontSize: 20,
           fontFamily: 'Montserrat',
-          text: 'Total Proportion of Confirmed, Dead & Recovered Cases',
+          text: 'Total Confirmed, Dead & Recovered Cases',
         },
       };
 
       const pieChartData = {
         datasets: [
           {
-            label: 'Colors',
+            label: 'Cases',
             data: [totalConfirmed, totalRecovered, totalDead],
             backgroundColor: ['#ABD1B5', '#CADAF7', '#F1887E'],
           },
@@ -60,6 +63,9 @@ const TotalPieChart = ({ API }) => {
         data: pieChartData,
         options: pieChartOptions,
       });
+      if (typeof homeChart !== 'undefined') {
+        totalPieChart.update();
+      }
     }
   }, [totalConfirmed, totalDead, totalRecovered]);
   return <canvas ref={totalPieChartRef}></canvas>;
