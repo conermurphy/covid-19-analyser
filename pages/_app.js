@@ -16,14 +16,14 @@ const GlobalStyle = createGlobalStyle`
     src: url('./Montserrat-Regular.woff2') format('woff2');
     font-weight: 400;
     font-style: normal;
-    font-display: swap;
+    font-display: fallback;
   }
   @font-face {
     font-family: 'Montserrat';
     src: url('./Montserrat-SemiBold.woff2') format('woff2');
     font-weight: 600;
     font-style: normal;
-    font-display: swap;
+    font-display: fallback;
   }
   body {
     scroll-padding-top: 7.5rem;
@@ -40,9 +40,17 @@ const GlobalStyle = createGlobalStyle`
     text-decoration: none;
     color: ${props => props.theme.black};
   }
+  h1 {
+    font-size: 1.75rem;
+    font-weight: 600;
+  }
   h2 {
     font-size: 1.5rem;
     font-weight: 600;
+  }
+  h3 {
+    font-size: 1.5rem;
+    font-weight: 400;
   }
   p, select, button {
     font-size: 1rem;

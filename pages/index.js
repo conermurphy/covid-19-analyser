@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { request } from 'graphql-request';
 import React, { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
@@ -47,10 +47,34 @@ const TextContent = styled.div`
 const HomeChartContainer = styled.div`
   position: relative;
   margin: auto;
-  height: 70vh;
+  height: 75vh;
+  min-height: 75vh;
   width: 75%;
   max-width: 75%;
   z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const awaitingRotate = keyframes`
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+`;
+
+const StatusSVG = styled.svg`
+  animation: ${awaitingRotate} 3s infinite;
+  margin-bottom: 12.5%;
+
+  & > circle {
+    fill: ${props => props.theme.accent};
+    stroke: none;
+    filter: drop-shadow(0px 0px 0px rgba(0, 0, 0, 9));
+  }
 `;
 
 const CovidCanvasContainer = styled.div`
@@ -260,7 +284,20 @@ const Home = () => {
           </StyledButton>
         </StyledForm>
         <HomeChartContainer>
-          {isLoading ? <p>Loading Data...</p> : <HomeChart data={homeChartAPIData} labels={homeChartAPILabels} combinedKey={combinedKey} />}
+          {isLoading ? (
+            <StatusSVG width="250" height="250" viewBox="0 0 100 100">
+              <circle cx="50" cy="25" r="5" />
+              <circle cx="67.5" cy="32.5" r="5" />
+              <circle cx="75" cy="50" r="5" />
+              <circle cx="67.5" cy="67.5" r="5" />
+              <circle cx="50" cy="75" r="5" />
+              <circle cx="32.5" cy="67.5" r="5" />
+              <circle cx="25" cy="50" r="5" />
+              <circle cx="32.5" cy="32.5" r="5" />
+            </StatusSVG>
+          ) : (
+            <HomeChart data={homeChartAPIData} labels={homeChartAPILabels} combinedKey={combinedKey} />
+          )}
         </HomeChartContainer>
       </ContentSection>
       <ContentSection id="covid" coloured beforeEl>
