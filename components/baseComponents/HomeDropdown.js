@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 const StyledSelect = styled.select`
@@ -14,8 +14,11 @@ const StyledSelect = styled.select`
 `;
 
 const HomeDropdown = ({ stateUpdater, arr, type, disabled, defaultSelection }) => {
+  const [displayedCountry, setDisplayedCountry] = useState(defaultSelection);
+
   function handleChange(e) {
     const selectedVal = e.currentTarget.value;
+    setDisplayedCountry(e.currentTarget.value);
     stateUpdater(selectedVal, type);
   }
 
@@ -49,22 +52,13 @@ const HomeDropdown = ({ stateUpdater, arr, type, disabled, defaultSelection }) =
     }
 
     return (
-      <StyledSelect name={type} id={type} onChange={handleChange} disabled={disabled}>
+      <StyledSelect name={type} id={type} onChange={handleChange} disabled={disabled} value={displayedCountry}>
         <option value={`Please select your ${formID}`} selected="selected">{`Please select your ${formID}`}</option>
-        {indArr.map(a => {
-          if (a === defaultSelection) {
-            return (
-              <option value={a} key={a} selected={defaultSelection}>
-                {a}
-              </option>
-            );
-          }
-          return (
-            <option value={a} key={a}>
-              {a}
-            </option>
-          );
-        })}
+        {indArr.map(a => (
+          <option value={a} key={a}>
+            {a}
+          </option>
+        ))}
       </StyledSelect>
     );
   }
