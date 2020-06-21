@@ -320,7 +320,7 @@ const Home = () => {
           <p>
             The best way to prevent and slow down transmission is be well informed about the COVID-19 virus, the disease it causes and how
             it spreads. Protect yourself and others from infection by washing your hands or using an alcohol based rub frequently and not
-            touching your face.{' '}
+            touching your face.
           </p>
           <p>
             The COVID-19 virus spreads primarily through droplets of saliva or discharge from the nose when an infected person coughs or
@@ -348,23 +348,23 @@ const Home = () => {
           <p>
             I put this site together as a landing page for the API I made to provide information on the COVID-19 pandemic gripping the world
             in 2020. The API was a great learning project and is completely free to use in your own projects, if you're interested in giving
-            it a shot, you can find it <a href="">here.</a>
+            it a shot, you can find it <a href="covid-19-graphql-api.herokuapp.com/">here.</a>
           </p>
           <p>
             If you're interested in contributing to the project or just want to give the code a read over, you can find links to both this
             landing page and the API on my{' '}
-            <a href="">
+            <a href="https://github.com/conermurphy">
               <b>Github.</b>
             </a>
           </p>
           <ul>
             <li>
-              <a href="">
+              <a href="https://github.com/conermurphy/covid-19-analyser">
                 <b>Front-End</b>
               </a>
             </li>
             <li>
-              <a href="">
+              <a href="https://github.com/conermurphy/covid-19-graphql-api">
                 <b>API</b>
               </a>
             </li>
