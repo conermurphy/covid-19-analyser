@@ -63,6 +63,15 @@ const UKUSConfirmedChart = ({ API }) => {
         UKUSConfirmedChart.destroy();
       }
 
+      const options = {
+        title: {
+          display: true,
+          fontSize: 20,
+          fontFamily: 'Montserrat',
+          text: 'UK vs US Confirmed Cases Timeseries',
+        },
+      };
+
       const data = {
         labels: chartLabels,
         datasets: [
@@ -92,6 +101,7 @@ const UKUSConfirmedChart = ({ API }) => {
       const UKUSConfirmedChart = new Chart(UKUSConfirmedChartRef.current, {
         type: 'line',
         data,
+        options,
       });
 
       if (typeof UKUSConfirmedChart !== 'undefined') {
