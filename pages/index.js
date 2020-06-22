@@ -382,7 +382,7 @@ const Home = () => {
             <UKUSCombinedChart API={API} />
           </CovidCanvasContainer>
           <CovidCanvasContainer>
-            <USStateConfirmedChart API={API} combinedKeyList={combinedKeyList} />
+            <USStateConfirmedChart API={API} />
           </CovidCanvasContainer>
           <CovidCanvasContainer>
             <canvas id="covidChart"></canvas>
