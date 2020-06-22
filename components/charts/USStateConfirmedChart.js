@@ -7,7 +7,19 @@ const USStateConfirmedChart = ({ API, combinedKeyList }) => {
   const [usStateList, setUsStateList] = useState();
   const [usStateConfirmedData, setUsStateConfirmedData] = useState();
 
-  const getConfirmedData = '';
+  // Function to request the data for the province state from the API.
+
+  async function getConfirmedData(PS) {
+    const data = await request(
+      API,
+      `query {
+        getTimeSeries(combinedKey:"${PS}"){
+          combinedKey
+        }
+      }`
+    );
+    return data;
+  }
 
   // useEffect to set stateList from confirmedKey list
 
