@@ -59,8 +59,8 @@ const UKUSConfirmedChart = ({ API }) => {
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      if (typeof UKUSConfirmedChart !== 'undefined') {
-        UKUSConfirmedChart.destroy();
+      if (typeof window.UKUSConfirmedChart !== 'undefined') {
+        window.UKUSConfirmedChart.destroy();
       }
 
       const options = {
@@ -98,14 +98,14 @@ const UKUSConfirmedChart = ({ API }) => {
         ],
       };
 
-      const UKUSConfirmedChart = new Chart(UKUSConfirmedChartRef.current, {
+      window.UKUSConfirmedChart = new Chart(UKUSConfirmedChartRef.current, {
         type: 'line',
         data,
         options,
       });
 
-      if (typeof UKUSConfirmedChart !== 'undefined') {
-        UKUSConfirmedChart.update();
+      if (typeof window.UKUSConfirmedChart !== 'undefined') {
+        window.UKUSConfirmedChart.update();
       }
     }
   }, [UKConfirmedData, USConfirmedData, chartLabels]);
