@@ -7,6 +7,7 @@ import HomeDropdown from '../components/baseComponents/HomeDropdown';
 const HomeChart = dynamic(() => import('../components/charts/home.js'), { srr: false });
 const UKUSCombinedChart = dynamic(() => import('../components/charts/UKUSConfirmedChart.js'), { srr: false });
 const TotalChart = dynamic(() => import('../components/charts/totalChart.js'), { srr: false });
+const USStateConfirmedChart = dynamic(() => import('../components/charts/USStateConfirmedChart.js'), { srr: false });
 
 const PageContainer = styled.div`
   display: flex;
@@ -381,7 +382,7 @@ const Home = () => {
             <UKUSCombinedChart API={API} />
           </CovidCanvasContainer>
           <CovidCanvasContainer>
-            <canvas id="covidChart"></canvas>
+            <USStateConfirmedChart API={API} combinedKeyList={combinedKeyList} />
           </CovidCanvasContainer>
           <CovidCanvasContainer>
             <canvas id="covidChart"></canvas>
