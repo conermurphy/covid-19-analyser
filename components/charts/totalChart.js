@@ -7,6 +7,7 @@ const TotalChart = ({ API }) => {
   const [totalDead, setTotalDead] = useState();
   const [totalConfirmed, setTotalConfirmed] = useState();
   const [totalRecovered, setTotalRecovered] = useState();
+  const [totalInfected, setTotalInfected] = useState();
 
   const totalDataQuery = `query {
     getTimeSeriesTotal {
@@ -26,6 +27,7 @@ const TotalChart = ({ API }) => {
       setTotalConfirmed(confirmedVal);
       setTotalDead(deadVal);
       setTotalRecovered(recoveredVal);
+      setTotalInfected(confirmedVal - recoveredVal - deadVal);
     };
 
     fetchTotalData();
@@ -35,12 +37,18 @@ const TotalChart = ({ API }) => {
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
+      if (typeof window.totalChart !== 'undefined') {
+        window.totalChart.destroy();
+      }
       const totalChartOptions = {
         title: {
           display: true,
           fontSize: 20,
           fontFamily: 'Montserrat',
-          text: 'Total Confirmed, Dead & Recovered Cases',
+          text: 'Total Infected, Dead & Recovered Cases',
+        },
+        legend: {
+          display: false,
         },
       };
 
@@ -48,24 +56,23 @@ const TotalChart = ({ API }) => {
         datasets: [
           {
             label: 'Cases',
-            data: [totalConfirmed, totalRecovered, totalDead],
+            data: [totalInfected, totalRecovered, totalDead],
             backgroundColor: ['#ABD1B5', '#CADAF7', '#F1887E'],
           },
         ],
-        labels: ['Confirmed', 'Recovered', 'Dead'],
+        labels: ['Infected', 'Recovered', 'Dead'],
       };
 
-      const totalChart = new Chart(totalChartRef.current, {
+      window.totalChart = new Chart(totalChartRef.current, {
         type: 'bar',
         data: totalChartData,
         options: totalChartOptions,
       });
-
-      if (typeof totalChart !== 'undefined') {
-        totalChart.update();
+      if (typeof window.totalChart !== 'undefined') {
+        window.totalChart.update();
       }
     }
-  }, [totalConfirmed, totalDead, totalRecovered]);
+  });
   return <canvas ref={totalChartRef}></canvas>;
 };
 
