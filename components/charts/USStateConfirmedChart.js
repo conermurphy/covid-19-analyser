@@ -8,7 +8,7 @@ const USStateConfirmedChart = ({ API }) => {
   const [usStateConfirmedData, setUsStateConfirmedData] = useState();
   const [usStateConfirmedLabels, setUsStateConfirmedLabels] = useState();
 
-  // Function to request the data for the province state from the API.
+  // query to request the data for the province state from the API.
 
   const getUSStates = `query {
     getProvinceState(countryRegion:"US") {

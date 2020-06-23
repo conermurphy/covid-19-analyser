@@ -8,6 +8,7 @@ const HomeChart = dynamic(() => import('../components/charts/home.js'), { srr: f
 const UKUSCombinedChart = dynamic(() => import('../components/charts/UKUSConfirmedChart.js'), { srr: false });
 const TotalChart = dynamic(() => import('../components/charts/totalChart.js'), { srr: false });
 const USStateConfirmedChart = dynamic(() => import('../components/charts/USStateConfirmedChart.js'), { srr: false });
+const CanadaProvinceRadarChart = dynamic(() => import('../components/charts/CanadaProvinceRadarChart.js'), { srr: false });
 
 const PageContainer = styled.div`
   display: flex;
@@ -385,7 +386,7 @@ const Home = () => {
             <USStateConfirmedChart API={API} />
           </CovidCanvasContainer>
           <CovidCanvasContainer>
-            <canvas id="covidChart"></canvas>
+            <CanadaProvinceRadarChart API={API} />
           </CovidCanvasContainer>
         </div>
       </ContentSection>
