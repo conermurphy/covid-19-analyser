@@ -5,7 +5,7 @@ import dynamic from 'next/dynamic';
 import HomeDropdown from '../components/baseComponents/HomeDropdown';
 
 const HomeChart = dynamic(() => import('../components/charts/home.js'), { srr: false });
-const UKUSCombinedChart = dynamic(() => import('../components/charts/UKUSConfirmedChart.js'), { srr: false });
+const UKUSDeadChart = dynamic(() => import('../components/charts/UKUSDeadChart.js'), { srr: false });
 const TotalChart = dynamic(() => import('../components/charts/totalChart.js'), { srr: false });
 const USStateConfirmedChart = dynamic(() => import('../components/charts/USStateConfirmedChart.js'), { srr: false });
 const AustraliaProvinceRadarChart = dynamic(() => import('../components/charts/AustraliaProvinceRadarChart.js'), { srr: false });
@@ -380,7 +380,7 @@ const Home = () => {
         </TextContent>
         <div style={{ display: 'flex', flexDirection: 'row', width: '75%', margin: 'auto' }}>
           <CovidCanvasContainer>
-            <UKUSCombinedChart API={API} />
+            <UKUSDeadChart API={API} />
           </CovidCanvasContainer>
           <CovidCanvasContainer>
             <USStateConfirmedChart API={API} />

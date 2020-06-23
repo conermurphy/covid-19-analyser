@@ -2,18 +2,18 @@ import React, { useState, useEffect, useRef } from 'react';
 import { request } from 'graphql-request';
 import Chart from 'chart.js';
 
-const UKUSConfirmedChart = ({ API }) => {
-  const UKUSConfirmedChartRef = useRef(null);
-  const [UKConfirmedData, setUKConfirmedData] = useState();
-  const [USConfirmedData, setUSConfirmedData] = useState();
+const UKUSDeadChart = ({ API }) => {
+  const UKUSDeadChartRef = useRef(null);
+  const [UKDeadData, setUKDeadData] = useState();
+  const [USDeadData, setUSDeadData] = useState();
   const [chartLabels, setChartLabels] = useState();
 
-  async function getConfirmedData(combinedKey) {
+  async function getDeadData(combinedKey) {
     const data = await request(
       API,
       `query {
       getTimeSeries(combinedKey:"${combinedKey}") {
-        confirmed
+        dead
       }
     }`
     );
@@ -21,22 +21,22 @@ const UKUSConfirmedChart = ({ API }) => {
   }
 
   useEffect(() => {
-    const fetchUKUSConfirmedData = async () =>
+    const fetchUKUSDeadData = async () =>
       Promise.all(
         ['United-Kingdom', 'US'].map(
           CR =>
             new Promise(async (res, rej) => {
               try {
-                const rawData = await getConfirmedData(CR);
-                const data = rawData.getTimeSeries[0].confirmed;
+                const rawData = await getDeadData(CR);
+                const data = rawData.getTimeSeries[0].dead;
                 setChartLabels(Object.keys(data));
                 switch (CR) {
                   case 'United-Kingdom':
-                    setUKConfirmedData(Object.values(data));
+                    setUKDeadData(Object.values(data));
                     res();
                     break;
                   case 'US':
-                    setUSConfirmedData(Object.values(data));
+                    setUSDeadData(Object.values(data));
                     res();
                     break;
                   default:
@@ -50,7 +50,7 @@ const UKUSConfirmedChart = ({ API }) => {
         )
       );
 
-    fetchUKUSConfirmedData();
+    fetchUKUSDeadData();
   }, []); // eslint-disable-line
 
   const pointRadius = 1;
@@ -59,8 +59,8 @@ const UKUSConfirmedChart = ({ API }) => {
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      if (typeof window.UKUSConfirmedChart !== 'undefined') {
-        window.UKUSConfirmedChart.destroy();
+      if (typeof window.UKUSDeadChart !== 'undefined') {
+        window.UKUSDeadChart.destroy();
       }
 
       const options = {
@@ -68,7 +68,7 @@ const UKUSConfirmedChart = ({ API }) => {
           display: true,
           fontSize: 20,
           fontFamily: 'Montserrat',
-          text: 'UK vs US Confirmed Cases Timeseries',
+          text: 'UK vs US Dead Cases Timeseries',
         },
       };
 
@@ -76,40 +76,40 @@ const UKUSConfirmedChart = ({ API }) => {
         labels: chartLabels,
         datasets: [
           {
-            label: 'UK: Confirmed',
+            label: 'UK: Dead',
             backgroundColor: '#ABD1B5',
             borderColor: '#ABD1B5',
             borderWidth,
             pointRadius,
             fill: 'none',
             lineTension,
-            data: UKConfirmedData,
+            data: UKDeadData,
           },
           {
-            label: 'US: Confirmed',
+            label: 'US: Dead',
             backgroundColor: '#F1887E',
             borderColor: '#F1887E',
             borderWidth,
             pointRadius,
             fill: 'none',
             lineTension,
-            data: USConfirmedData,
+            data: USDeadData,
           },
         ],
       };
 
-      window.UKUSConfirmedChart = new Chart(UKUSConfirmedChartRef.current, {
+      window.UKUSDeadChart = new Chart(UKUSDeadChartRef.current, {
         type: 'line',
         data,
         options,
       });
 
-      if (typeof window.UKUSConfirmedChart !== 'undefined') {
-        window.UKUSConfirmedChart.update();
+      if (typeof window.UKUSDeadChart !== 'undefined') {
+        window.UKUSDeadChart.update();
       }
     }
-  }, [UKConfirmedData, USConfirmedData, chartLabels]);
-  return <canvas ref={UKUSConfirmedChartRef}></canvas>;
+  }, [UKDeadData, USDeadData, chartLabels]);
+  return <canvas ref={UKUSDeadChartRef}></canvas>;
 };
 
-export default UKUSConfirmedChart;
+export default UKUSDeadChart;
