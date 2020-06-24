@@ -1,14 +1,14 @@
 const size = {
-  tablet: '640px',
+  mobileL: '640px',
   tablet: '768px',
-  laptopL: '1024px',
+  tabletL: '1024px',
   desktop: '1280px',
 };
 
 const device = {
+  mobileL: `(max-width: ${size.tablet})`,
   tablet: `(max-width: ${size.tablet})`,
-  tablet: `(max-width: ${size.tablet})`,
-  laptopL: `(max-width: ${size.laptopL})`,
+  tabletL: `(max-width: ${size.tabletL})`,
   desktop: `(max-width: ${size.desktop})`,
 };
 

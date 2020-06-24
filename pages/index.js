@@ -28,15 +28,11 @@ const ContentSection = styled.section`
   padding: 2.5rem 0;
   position: relative;
 
-  * {
-    flex: 1 1 0;
-  }
-
   ::before {
     content: url('./beforeEl.svg');
     display: ${props => (props.beforeEl ? 'block' : 'none')};
     width: 100%;
-    top: -270px; /* possibly look at using calc for this! */
+    top: -15vw; /* possibly look at using calc for this! */
     position: absolute;
     z-index: -1;
   }
@@ -49,23 +45,19 @@ const ContentSection = styled.section`
     padding-top: 2.5rem;
   }
 
-  @media ${device.tablet} {
+  @media ${device.desktop} {
     flex-direction: column;
-
-    ::before {
-      top: -15vw;
-    }
   }
 `;
 
 const TextContent = styled.div`
-  padding-left: ${props => (props.left ? '15rem' : 0)};
-  padding-right: ${props => (props.right ? '15rem' : 0)};
+  padding-left: ${props => (props.left ? '5rem' : 0)};
+  padding-right: ${props => (props.right ? '5rem' : 0)};
   text-align: ${props => (props.right ? 'right' : 'left')};
-  max-width: 40%;
+  max-width: 35%;
 
-  @media ${device.tablet} {
-    padding: 0;
+  @media ${device.desktop} {
+    padding: 1rem;
     margin: 1rem;
     max-width: 100%;
     text-align: center;
@@ -112,7 +104,7 @@ const CovidCanvasContainer = styled.div`
   position: relative;
   margin: auto;
   height: auto;
-  width: 75%;
+  width: 50%;
   margin-bottom: 5rem;
 
   @media ${device.tablet} {
@@ -134,12 +126,11 @@ const StyledForm = styled.form`
   align-items: center;
   justify-content: center;
   height: auto;
-  width: 100%;
+  width: calc(100% - 1rem);
   margin: 1rem;
 
   @media ${device.tablet} {
     flex-direction: column;
-    width: 95%;
   }
 `;
 
