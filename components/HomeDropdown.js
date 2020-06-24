@@ -13,7 +13,7 @@ const StyledSelect = styled.select`
   box-shadow: ${props => props.theme.bs};
   padding: 0 0.5rem;
 
-  @media ${device.mobileL} {
+  @media ${device.tablet} {
     max-width: 75%;
     padding: 0.5rem 2rem;
   }

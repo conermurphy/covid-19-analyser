@@ -54,16 +54,16 @@ const UKUSDeadChart = ({ API }) => {
     fetchUKUSDeadData();
   }, []); // eslint-disable-line
 
-  const mobile = window.matchMedia(`${device.mobileL}`);
-  const pointRadius = mobile.matches ? 1.25 : 2.5;
-  const borderWidth = mobile.matches ? 2.5 : 5;
-  const lineTension = 0;
-
   useEffect(() => {
     if (typeof window !== 'undefined') {
       if (typeof window.UKUSDeadChart !== 'undefined') {
         window.UKUSDeadChart.destroy();
       }
+
+      const mobile = window.matchMedia(`${device.tablet}`);
+      const pointRadius = mobile.matches ? 1.25 : 2.5;
+      const borderWidth = mobile.matches ? 2.5 : 5;
+      const lineTension = 0;
 
       const options = {
         title: {
@@ -110,7 +110,7 @@ const UKUSDeadChart = ({ API }) => {
         window.UKUSDeadChart.update();
       }
     }
-  }, [UKDeadData, USDeadData, borderWidth, chartLabels, pointRadius]);
+  }, [UKDeadData, USDeadData, chartLabels]);
   return <canvas ref={UKUSDeadChartRef}></canvas>;
 };
 

@@ -22,7 +22,7 @@ const StyledHeader = styled.header`
     padding: 0.5rem 4rem;
   }
 
-  @media ${device.mobileL} {
+  @media ${device.tablet} {
     flex-direction: column;
     justify-content: center;
     text-align: center;

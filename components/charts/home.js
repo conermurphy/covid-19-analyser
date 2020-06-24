@@ -26,7 +26,7 @@ const HomeChart = ({ data, labels, combinedKey }) => {
         },
       };
 
-      const mobile = window.matchMedia(`${device.mobileL}`);
+      const mobile = window.matchMedia(`${device.tablet}`);
       const pointRadius = mobile.matches ? 1.25 : 2.5;
       const borderWidth = mobile.matches ? 2.5 : 5;
       const lineTension = 0;

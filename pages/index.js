@@ -49,11 +49,11 @@ const ContentSection = styled.section`
     padding-top: 2.5rem;
   }
 
-  @media ${device.mobileL} {
+  @media ${device.tablet} {
     flex-direction: column;
 
     ::before {
-      top: -60px;
+      top: -15vw;
     }
   }
 `;
@@ -64,7 +64,7 @@ const TextContent = styled.div`
   text-align: ${props => (props.right ? 'right' : 'left')};
   max-width: 40%;
 
-  @media ${device.mobileL} {
+  @media ${device.tablet} {
     padding: 0;
     margin: 1rem;
     max-width: 100%;
@@ -82,7 +82,7 @@ const HomeChartContainer = styled.div`
   align-items: center;
   justify-content: center;
 
-  @media ${device.mobileL} {
+  @media ${device.tablet} {
     width: 95%;
     max-width: 95%;
   }
@@ -115,17 +115,16 @@ const CovidCanvasContainer = styled.div`
   width: 75%;
   margin-bottom: 5rem;
 
-  @media ${device.mobileL} {
-    margin: 0 2rem;
+  @media ${device.tablet} {
     margin-bottom: 2.5rem;
-    width: 95%;
+    width: 90%;
   }
 `;
 
 const ExampleChartContainer = styled.div`
   display: flex;
   flex-direction: column;
-  width: 95%;
+  width: 100%;
 `;
 
 const StyledForm = styled.form`
@@ -138,9 +137,9 @@ const StyledForm = styled.form`
   width: 100%;
   margin: 1rem;
 
-  @media ${device.mobileL} {
+  @media ${device.tablet} {
     flex-direction: column;
-    width: fit-content;
+    width: 95%;
   }
 `;
 
@@ -154,7 +153,7 @@ const StyledButton = styled.button`
   box-shadow: ${props => props.theme.bs};
   padding: 0 0.5rem;
 
-  @media ${device.mobileL} {
+  @media ${device.tablet} {
     max-width: 75%;
     padding: 0.5rem 2rem;
     margin-top: 0.5rem;
