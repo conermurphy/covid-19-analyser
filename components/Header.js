@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import Link from 'next/link';
 import Nav from './Nav';
+import device from './device';
 
 const StyledHeader = styled.header`
   display: flex;
@@ -19,6 +20,16 @@ const StyledHeader = styled.header`
 
   * {
     padding: 0.5rem 4rem;
+  }
+
+  @media ${device.mobileL} {
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+
+    * {
+      padding: 0.5rem;
+    }
   }
 `;
 
