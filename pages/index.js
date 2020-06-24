@@ -2,7 +2,7 @@ import styled, { keyframes } from 'styled-components';
 import { request } from 'graphql-request';
 import React, { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
-import HomeDropdown from '../components/baseComponents/HomeDropdown';
+import HomeDropdown from '../components/HomeDropdown';
 
 const HomeChart = dynamic(() => import('../components/charts/home.js'), { srr: false });
 const UKUSDeadChart = dynamic(() => import('../components/charts/UKUSDeadChart.js'), { srr: false });
