@@ -25,7 +25,7 @@ const ContentSection = styled.section`
   width: 100%;
   background-color: ${props => (props.coloured ? props.theme.primary : props.theme.coloured)};
   background: ${props => (props.coloured ? 'linear-gradient(180deg, rgba(215,212,237,1) 75%, rgba(254,254,254,1) 95%)' : 'none')};
-  padding: 5rem 0;
+  padding: 2.5rem 0;
   position: relative;
 
   * {
@@ -36,7 +36,7 @@ const ContentSection = styled.section`
     content: url('./beforeEl.svg');
     display: ${props => (props.beforeEl ? 'block' : 'none')};
     width: 100%;
-    top: -270px;
+    top: -270px; /* possibly look at using calc for this! */
     position: absolute;
     z-index: -1;
   }
@@ -51,6 +51,10 @@ const ContentSection = styled.section`
 
   @media ${device.mobileL} {
     flex-direction: column;
+
+    ::before {
+      top: -60px;
+    }
   }
 `;
 
@@ -128,6 +132,10 @@ const StyledForm = styled.form`
   height: auto;
   width: 100%;
   margin: 1rem;
+
+  @media ${device.mobileL} {
+    flex-direction: column;
+  }
 `;
 
 const StyledButton = styled.button`
@@ -139,6 +147,12 @@ const StyledButton = styled.button`
   background-color: ${props => props.theme.accent};
   box-shadow: ${props => props.theme.bs};
   padding: 0 0.5rem;
+
+  @media ${device.mobileL} {
+    max-width: 75%;
+    padding: 0.5rem 2rem;
+    margin-top: 0.5rem;
+  }
 `;
 
 const Home = () => {

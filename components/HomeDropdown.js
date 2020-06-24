@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import device from './device';
 
 const StyledSelect = styled.select`
   max-width: 17.5%;
@@ -11,6 +12,11 @@ const StyledSelect = styled.select`
   opacity: ${props => (props.disabled ? '50%' : '100%')};
   box-shadow: ${props => props.theme.bs};
   padding: 0 0.5rem;
+
+  @media ${device.mobileL} {
+    max-width: 75%;
+    padding: 0.5rem 2rem;
+  }
 `;
 
 const HomeDropdown = ({ stateUpdater, arr, type, disabled, defaultSelection }) => {
