@@ -21,12 +21,12 @@ const PageContainer = styled.div`
 const ContentSection = styled.section`
   display: flex;
   flex-direction: ${props => (props.column ? 'column' : 'row')};
-  justify-content: space-between;
+  justify-content: center;
   width: 100%;
   background-color: ${props => (props.coloured ? props.theme.primary : props.theme.coloured)};
   background: ${props => (props.coloured ? 'linear-gradient(180deg, rgba(215,212,237,1) 75%, rgba(254,254,254,1) 95%)' : 'none')};
-  padding: 2.5rem 0;
   position: relative;
+  padding: 2.5rem 0;
 
   ::before {
     content: url('./beforeEl.svg');
@@ -51,10 +51,9 @@ const ContentSection = styled.section`
 `;
 
 const TextContent = styled.div`
-  padding-left: ${props => (props.left ? '5rem' : 0)};
-  padding-right: ${props => (props.right ? '5rem' : 0)};
   text-align: ${props => (props.right ? 'right' : 'left')};
-  max-width: 35%;
+  max-width: 50%;
+  padding: 0 2.5rem;
 
   @media ${device.desktop} {
     padding: 1rem;
@@ -104,7 +103,7 @@ const CovidCanvasContainer = styled.div`
   position: relative;
   margin: auto;
   height: auto;
-  width: 50%;
+  width: 40%;
   margin-bottom: 5rem;
 
   @media ${device.tablet} {
@@ -117,6 +116,7 @@ const ExampleChartContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
+  padding: 0;
 `;
 
 const StyledForm = styled.form`
@@ -375,7 +375,7 @@ const Home = () => {
         </CovidCanvasContainer>
       </ContentSection>
       <ContentSection id="about">
-        <CovidCanvasContainer>{/* Insert gif of API being used here */}</CovidCanvasContainer>
+        <img src="./workingAPI.gif" alt="Video of the API" style={{ width: '70%', margin: 'auto', maxWidth: '800px' }} />
         <TextContent right>
           <h2>About This Site</h2>
           <p>
@@ -405,7 +405,7 @@ const Home = () => {
         </TextContent>
       </ContentSection>
       <ContentSection id="examples" coloured column beforeEl>
-        <TextContent style={{ textAlign: 'center', width: '50%', margin: 'auto', paddingBottom: '2rem' }}>
+        <TextContent style={{ textAlign: 'center', width: '50%', margin: 'auto', padding: '0', paddingBottom: '2rem' }}>
           <h2>More Examples</h2>
           <p>Here's some more examples of charts made using the data provided by the API.</p>
         </TextContent>
