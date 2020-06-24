@@ -3,6 +3,7 @@ import { request } from 'graphql-request';
 import React, { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import HomeDropdown from '../components/HomeDropdown';
+import device from '../components/device';
 
 const HomeChart = dynamic(() => import('../components/charts/home.js'), { srr: false });
 const UKUSDeadChart = dynamic(() => import('../components/charts/UKUSDeadChart.js'), { srr: false });
@@ -47,6 +48,10 @@ const ContentSection = styled.section`
   :last-child {
     padding-top: 2.5rem;
   }
+
+  @media ${device.mobileL} {
+    flex-direction: column;
+  }
 `;
 
 const TextContent = styled.div`
@@ -54,6 +59,13 @@ const TextContent = styled.div`
   padding-right: ${props => (props.right ? '15rem' : 0)};
   text-align: ${props => (props.right ? 'right' : 'left')};
   max-width: 40%;
+
+  @media ${device.mobileL} {
+    padding: 0;
+    margin: 1rem;
+    max-width: 100%;
+    text-align: left;
+  }
 `;
 
 const HomeChartContainer = styled.div`
@@ -94,6 +106,17 @@ const CovidCanvasContainer = styled.div`
   margin: auto;
   height: auto;
   max-width: 40%;
+`;
+
+const ExampleChartContainer = styled.div`
+  display: 'flex';
+  flex-direction: 'row';
+  width: '75%';
+  margin: 'auto';
+
+  @media ${device.mobileL} {
+    flex-direction: column;
+  }
 `;
 
 const StyledForm = styled.form`
@@ -378,7 +401,7 @@ const Home = () => {
           <h2>More Examples</h2>
           <p>Here's some more examples of charts made using the data provided by the API.</p>
         </TextContent>
-        <div style={{ display: 'flex', flexDirection: 'row', width: '75%', margin: 'auto' }}>
+        <ExampleChartContainer>
           <CovidCanvasContainer>
             <UKUSDeadChart API={API} />
           </CovidCanvasContainer>
@@ -388,7 +411,7 @@ const Home = () => {
           <CovidCanvasContainer>
             <AustraliaProvinceRadarChart API={API} />
           </CovidCanvasContainer>
-        </div>
+        </ExampleChartContainer>
       </ContentSection>
     </PageContainer>
   );
