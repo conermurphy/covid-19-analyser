@@ -68,7 +68,7 @@ const TextContent = styled.div`
     padding: 0;
     margin: 1rem;
     max-width: 100%;
-    text-align: left;
+    text-align: center;
   }
 `;
 
@@ -135,6 +135,7 @@ const StyledForm = styled.form`
 
   @media ${device.mobileL} {
     flex-direction: column;
+    width: fit-content;
   }
 `;
 
@@ -379,9 +380,7 @@ const Home = () => {
         </CovidCanvasContainer>
       </ContentSection>
       <ContentSection id="about">
-        <CovidCanvasContainer>
-          <canvas id="covidChart"></canvas>
-        </CovidCanvasContainer>
+        <CovidCanvasContainer>{/* Insert gif of API being used here */}</CovidCanvasContainer>
         <TextContent right>
           <h2>About This Site</h2>
           <p>
