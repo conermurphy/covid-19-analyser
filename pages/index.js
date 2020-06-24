@@ -117,6 +117,10 @@ const ExampleChartContainer = styled.div`
   flex-direction: column;
   width: 100%;
   padding: 0;
+
+  div {
+    width: 80%;
+  }
 `;
 
 const StyledForm = styled.form`
