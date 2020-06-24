@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { request } from 'graphql-request';
 import Chart from 'chart.js';
+import device from '../device';
 
 const UKUSDeadChart = ({ API }) => {
   const UKUSDeadChartRef = useRef(null);
@@ -53,8 +54,9 @@ const UKUSDeadChart = ({ API }) => {
     fetchUKUSDeadData();
   }, []); // eslint-disable-line
 
-  const pointRadius = 1;
-  const borderWidth = 2;
+  const mobile = window.matchMedia(`${device.mobileL}`);
+  const pointRadius = mobile.matches ? 1.25 : 2.5;
+  const borderWidth = mobile.matches ? 2.5 : 5;
   const lineTension = 0;
 
   useEffect(() => {
@@ -108,7 +110,7 @@ const UKUSDeadChart = ({ API }) => {
         window.UKUSDeadChart.update();
       }
     }
-  }, [UKDeadData, USDeadData, chartLabels]);
+  }, [UKDeadData, USDeadData, borderWidth, chartLabels, pointRadius]);
   return <canvas ref={UKUSDeadChartRef}></canvas>;
 };
 

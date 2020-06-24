@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import Chart from 'chart.js';
+import device from '../device';
 
 const HomeChart = ({ data, labels, combinedKey }) => {
   const homeChartRef = useRef(null);
@@ -25,8 +26,9 @@ const HomeChart = ({ data, labels, combinedKey }) => {
         },
       };
 
-      const pointRadius = 2;
-      const borderWidth = 5;
+      const mobile = window.matchMedia(`${device.mobileL}`);
+      const pointRadius = mobile.matches ? 1.25 : 2.5;
+      const borderWidth = mobile.matches ? 2.5 : 5;
       const lineTension = 0;
 
       const homeChartData = {

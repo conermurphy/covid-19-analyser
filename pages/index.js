@@ -75,14 +75,17 @@ const TextContent = styled.div`
 const HomeChartContainer = styled.div`
   position: relative;
   margin: auto;
-  height: 75vh;
-  min-height: 75vh;
   width: 75%;
   max-width: 75%;
   z-index: 2;
   display: flex;
   align-items: center;
   justify-content: center;
+
+  @media ${device.mobileL} {
+    width: 95%;
+    max-width: 95%;
+  }
 `;
 
 const awaitingRotate = keyframes`
@@ -109,18 +112,20 @@ const CovidCanvasContainer = styled.div`
   position: relative;
   margin: auto;
   height: auto;
-  max-width: 40%;
+  width: 75%;
+  margin-bottom: 5rem;
+
+  @media ${device.mobileL} {
+    margin: 0 2rem;
+    margin-bottom: 2.5rem;
+    width: 95%;
+  }
 `;
 
 const ExampleChartContainer = styled.div`
-  display: 'flex';
-  flex-direction: 'row';
-  width: '75%';
-  margin: 'auto';
-
-  @media ${device.mobileL} {
-    flex-direction: column;
-  }
+  display: flex;
+  flex-direction: column;
+  width: 95%;
 `;
 
 const StyledForm = styled.form`
