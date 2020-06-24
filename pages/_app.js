@@ -57,6 +57,9 @@ const GlobalStyle = createGlobalStyle`
     font-weight: 400;
     list-style: none;
   }
+  ul {
+    padding: 0;
+  }
 `;
 
 export default class MyApp extends App {
