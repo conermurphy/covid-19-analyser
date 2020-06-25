@@ -13,11 +13,20 @@ const HomeChart = ({ data, labels, combinedKey }) => {
       let deadData;
       let recoveredData;
 
-      for (const el in data) {
-        confirmedData = data.confirmed ? Object.values(data.confirmed) : 'null';
-        deadData = data.dead ? Object.values(data.dead) : 'null';
-        recoveredData = data.recovered ? Object.values(data.recovered) : 'null';
-      }
+      Object.entries(data).forEach(d => {
+        switch (d[0]) {
+          case 'confirmed':
+            confirmedData = Object.values(d[1]);
+            break;
+          case 'dead':
+            deadData = Object.values(d[1]);
+            break;
+          case 'recovered':
+            recoveredData = Object.values(d[1]);
+            break;
+          default:
+        }
+      });
 
       const homeChartOptions = {
         legend: {
