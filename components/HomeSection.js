@@ -4,6 +4,7 @@ import { request } from 'graphql-request';
 import dynamic from 'next/dynamic';
 import device from './device';
 import HomeDropdown from './HomeDropdown';
+import LoadingSVG from './loadingSVG';
 
 const HomeChart = dynamic(() => import('../components/charts/home.js'), { srr: false });
 
@@ -55,7 +56,7 @@ const StyledButton = styled.button`
   }
 `;
 
-const HomeSection = ({ API, setLoading }) => {
+const HomeSection = ({ API }) => {
   const defaultSelection = 'Germany'; // default selection used for dropdown on homepage
 
   // === VARIOUS DEFINITIONS OF STATE ===
@@ -77,6 +78,7 @@ const HomeSection = ({ API, setLoading }) => {
 
   // State for fetching data
   const [fetchData, setFetchData] = useState(false);
+  const [isHomeLoading, setIsHomeLoading] = useState(false);
 
   // === QUERY DEFINITIONS ===
 
@@ -125,7 +127,7 @@ const HomeSection = ({ API, setLoading }) => {
 
   useEffect(() => {
     const fetchHomeData = async () => {
-      //   setLoading(true);
+      setIsHomeLoading(true);
 
       const homeGraphData = await request(API, homeGraphDataQuery);
       const usableData = homeGraphData.getTimeSeries[0];
@@ -133,11 +135,11 @@ const HomeSection = ({ API, setLoading }) => {
       setHomeChartAPIData(usableData);
       setHomeChartAPILabels(Object.keys(usableData.confirmed));
 
-      setLoading(false);
+      setIsHomeLoading(false);
     };
 
     fetchHomeData();
-  }, [API, homeGraphDataQuery]); // eslint-disable-line
+  }, [API, homeGraphDataQuery]);
 
   // fetching province state list for the selected country region.
 
@@ -219,7 +221,9 @@ const HomeSection = ({ API, setLoading }) => {
 
   // === RETURNING THE DROPDOWNS AND HOME CHART ===
 
-  return (
+  return isHomeLoading ? (
+    <LoadingSVG />
+  ) : (
     <>
       <StyledForm>
         <HomeDropdown

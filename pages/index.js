@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import HomeSection from '../components/HomeSection';
 import device from '../components/device';
@@ -89,18 +89,10 @@ const ExampleChartContainer = styled.div`
 const Home = () => {
   const API = 'https://covid-19-graphql-api.herokuapp.com/';
 
-  // Loading Related State
-  const [isLoading, setIsLoading] = useState(false);
-
-  function setLoading(val) {
-    console.log(val);
-    setIsLoading(val);
-  }
-
   return (
     <PageContainer>
-      <ContentSection column={!isLoading} style={{ height: '80vh' }}>
-        {isLoading ? <LoadingSVG /> : <HomeSection API={API} setLoading={setLoading} />}
+      <ContentSection column style={{ height: '80vh' }}>
+        <HomeSection API={API} />
       </ContentSection>
       <ContentSection id="covid" coloured beforeEl>
         <TextContent left>

@@ -11,6 +11,7 @@ const awaitingRotate = keyframes`
 
 const StatusSVG = styled.svg`
   animation: ${awaitingRotate} 3s infinite;
+  align-self: center;
 
   & > circle {
     fill: ${props => props.theme.accent};
