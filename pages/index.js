@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import HomeDropdown from '../components/HomeDropdown';
 import device from '../components/device';
+import LoadingSVG from '../components/loadingSVG';
 
 const HomeChart = dynamic(() => import('../components/charts/home.js'), { srr: false });
 const UKUSDeadChart = dynamic(() => import('../components/charts/UKUSDeadChart.js'), { srr: false });
@@ -76,25 +77,6 @@ const HomeChartContainer = styled.div`
   @media ${device.tablet} {
     width: 95%;
     max-width: 95%;
-  }
-`;
-
-const awaitingRotate = keyframes`
-    from {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(360deg);
-    }
-`;
-
-const StatusSVG = styled.svg`
-  animation: ${awaitingRotate} 3s infinite;
-
-  & > circle {
-    fill: ${props => props.theme.accent};
-    stroke: none;
-    filter: drop-shadow(0px 0px 0px rgba(0, 0, 0, 9));
   }
 `;
 
@@ -313,16 +295,7 @@ const Home = () => {
     <PageContainer>
       <ContentSection column={!isLoading} style={{ height: '80vh' }}>
         {isLoading ? (
-          <StatusSVG width="250" height="250" viewBox="0 0 100 100">
-            <circle cx="50" cy="25" r="5" />
-            <circle cx="67.5" cy="32.5" r="5" />
-            <circle cx="75" cy="50" r="5" />
-            <circle cx="67.5" cy="67.5" r="5" />
-            <circle cx="50" cy="75" r="5" />
-            <circle cx="32.5" cy="67.5" r="5" />
-            <circle cx="25" cy="50" r="5" />
-            <circle cx="32.5" cy="32.5" r="5" />
-          </StatusSVG>
+          <LoadingSVG />
         ) : (
           <>
             <StyledForm>
