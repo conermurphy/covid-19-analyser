@@ -24,7 +24,7 @@ const ContentSection = styled.section`
   background-color: ${props => (props.coloured ? props.theme.primary : props.theme.coloured)};
   background: ${props => (props.coloured ? 'linear-gradient(180deg, rgba(215,212,237,1) 75%, rgba(254,254,254,1) 95%)' : 'none')};
   position: relative;
-  padding: 2.5rem 0;
+  padding: 5rem 0;
 
   ::before {
     content: url('./beforeEl.svg');
@@ -65,6 +65,7 @@ const CovidCanvasContainer = styled.div`
   position: relative;
   margin: auto;
   height: auto;
+  width: 40%;
   margin-bottom: 5rem;
   display: flex;
   align-items: center;
