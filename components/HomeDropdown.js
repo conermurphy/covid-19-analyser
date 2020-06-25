@@ -34,7 +34,7 @@ const HomeDropdown = ({ stateUpdater, arr, type, disabled, defaultSelection, loa
     stateUpdater(selectedVal, type);
   }
 
-  if (!loadingData) {
+  if (!loadingData && typeof arr !== 'undefined') {
     let indArr;
     let formID;
     switch (type) {
