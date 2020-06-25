@@ -77,8 +77,14 @@ const USStateConfirmedChart = ({ API }) => {
     setIsLoading(false);
   }, [API, usStateList]);
 
+  // function to pad out an array used for creating background colours.
+
+  function padEndArray(arr, minLen, fill) {
+    return Object.assign(new Array(minLen).fill(fill), arr);
+  }
+
   useEffect(() => {
-    if (typeof window !== 'undefined' && !isLoading) {
+    if (typeof window !== 'undefined' && !isLoading && !!usStateConfirmedData) {
       if (typeof window.USStateConfirmedChart !== 'undefined') {
         window.USStateConfirmedChart.destroy();
       }
@@ -95,8 +101,19 @@ const USStateConfirmedChart = ({ API }) => {
         },
       };
 
+      // used to assign background colours for pie chart.
+
+      const backgroundColor = padEndArray([], usStateConfirmedData.length, ['#FAAA8D', '#0B3954', '#00A896'])
+        .flat()
+        .slice(0, usStateConfirmedData.length);
+
       const data = {
-        datasets: [{ data: usStateConfirmedData }],
+        datasets: [
+          {
+            data: usStateConfirmedData,
+            backgroundColor,
+          },
+        ],
         labels: usStateConfirmedLabels,
       };
 
