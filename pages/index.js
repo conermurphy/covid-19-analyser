@@ -157,7 +157,7 @@ const StyledButton = styled.button`
 
 const Home = () => {
   const API = 'https://covid-19-graphql-api.herokuapp.com/';
-  const defaultSelection = 'Denmark';
+  const defaultSelection = 'Germany';
 
   // State for home chart
   const [homeChartAPIData, setHomeChartAPIData] = useState();
