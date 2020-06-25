@@ -1,12 +1,10 @@
-import styled, { keyframes } from 'styled-components';
-import { request } from 'graphql-request';
-import React, { useState, useEffect } from 'react';
+import styled from 'styled-components';
+import React, { useState } from 'react';
 import dynamic from 'next/dynamic';
-import HomeDropdown from '../components/HomeDropdown';
+import HomeSection from '../components/HomeSection';
 import device from '../components/device';
 import LoadingSVG from '../components/loadingSVG';
 
-const HomeChart = dynamic(() => import('../components/charts/home.js'), { srr: false });
 const UKUSDeadChart = dynamic(() => import('../components/charts/UKUSDeadChart.js'), { srr: false });
 const TotalChart = dynamic(() => import('../components/charts/totalChart.js'), { srr: false });
 const USStateConfirmedChart = dynamic(() => import('../components/charts/USStateConfirmedChart.js'), { srr: false });
@@ -64,22 +62,6 @@ const TextContent = styled.div`
   }
 `;
 
-const HomeChartContainer = styled.div`
-  position: relative;
-  margin: auto;
-  width: 75%;
-  max-width: 75%;
-  z-index: 2;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  @media ${device.tablet} {
-    width: 95%;
-    max-width: 95%;
-  }
-`;
-
 const CovidCanvasContainer = styled.div`
   position: relative;
   margin: auto;
@@ -104,227 +86,21 @@ const ExampleChartContainer = styled.div`
   }
 `;
 
-const StyledForm = styled.form`
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  height: auto;
-  width: calc(100% - 1rem);
-  margin: 1rem;
-
-  @media ${device.tablet} {
-    flex-direction: column;
-  }
-`;
-
-const StyledButton = styled.button`
-  max-width: 10%;
-  height: 2.5rem;
-  margin: 0 1.5rem;
-  border: 2px solid ${props => props.theme.offWhite};
-  border-radius: 0.5rem;
-  background-color: ${props => props.theme.accent};
-  box-shadow: ${props => props.theme.bs};
-  padding: 0 0.5rem;
-
-  @media ${device.tablet} {
-    max-width: 75%;
-    padding: 0.5rem 2rem;
-    margin-top: 0.5rem;
-  }
-`;
-
 const Home = () => {
   const API = 'https://covid-19-graphql-api.herokuapp.com/';
-  const defaultSelection = 'Germany';
 
-  // State for home chart
-  const [homeChartAPIData, setHomeChartAPIData] = useState();
-  const [homeChartAPILabels, setHomeChartAPILabels] = useState();
-  // State for getting complete list of data points
-  const [combinedKey, setCombinedKey] = useState(defaultSelection); // Value used to query API for data
-  const [combinedKeyList, setCombinedKeyList] = useState(); // Complete list of data for users to select from
-  // State related to home chart dropdowns
-  const [countryRegion, setCountryRegion] = useState(defaultSelection); // Country Region selected by the user.
-  const [provinceState, setProvinceState] = useState(''); // Province Region set by the user.
-  const [provinceStateList, setProvinceStateList] = useState();
-  const [usStateArea, setUsStateArea] = useState('');
-  const [usStateAreaList, setUsStateAreaList] = useState();
   // Loading Related State
   const [isLoading, setIsLoading] = useState(false);
-  const [fetchData, setFetchData] = useState(false);
 
-  // Queries for fetching data
-
-  const combinedKeyListQuery = `
-    query {
-      getTimeSeriesAll {
-        countryRegion
-        provinceState
-        combinedKey
-      }
-    }
-  `;
-  const homeGraphDataQuery = `query {
-    getTimeSeries(combinedKey:"${combinedKey}") {
-      dead
-      recovered
-      confirmed
-      }
-    }
-  `;
-  const homeProvinceStateQuery = `query {
-    getProvinceState(countryRegion:"${countryRegion}") {
-      provinceState
-    }
-  }`;
-
-  const usSubStateAreaQuery = `query {
-    getUSSubStateLocations(provinceState:"${provinceState}") {
-      combinedKey
-    }
-  }`;
-
-  // This function fetches the full combined list from the API and sets the state.
-
-  useEffect(() => {
-    const fetchCountryData = async () => {
-      const combinedKeyListData = await request(API, combinedKeyListQuery);
-      setCombinedKeyList(combinedKeyListData.getTimeSeriesAll);
-    };
-    fetchCountryData();
-  }, []); // eslint-disable-line
-
-  // This calls the query to get the selected combinedKeys data from the API.
-
-  useEffect(() => {
-    const fetchHomeData = async () => {
-      setIsLoading(true);
-
-      const homeGraphData = await request(API, homeGraphDataQuery);
-      const usableData = homeGraphData.getTimeSeries[0];
-
-      setHomeChartAPIData(usableData);
-      setHomeChartAPILabels(Object.keys(usableData.confirmed));
-
-      setIsLoading(false);
-    };
-
-    fetchHomeData();
-  }, [homeGraphDataQuery]);
-
-  // query to retrieve province state list for the selected country region.
-
-  useEffect(() => {
-    const fetchProvinceState = async () => {
-      const provinceStateData = await request(API, homeProvinceStateQuery);
-      setProvinceStateList(provinceStateData.getProvinceState);
-    };
-    fetchProvinceState();
-  }, [homeProvinceStateQuery]);
-
-  // query to get subState locations in US
-
-  useEffect(() => {
-    const fetchSubUSStateArea = async () => {
-      const subStateAreas = await request(API, usSubStateAreaQuery);
-      if (provinceState !== '') {
-        setUsStateAreaList(subStateAreas.getUSSubStateLocations);
-      } else {
-        setUsStateAreaList([]);
-      }
-    };
-    fetchSubUSStateArea();
-  }, [provinceState, usSubStateAreaQuery]);
-
-  // function to set combined ke
-
-  useEffect(() => {
-    const handleDataChange = () => {
-      const combinedCR = countryRegion.replace(/([ ])/g, '-');
-      const combinedPS = provinceState.replace(/([ ])/g, '-');
-      const combinedUSA = usStateArea.replace(/([ ])/g, '-');
-
-      if (combinedCR === 'US') {
-        if (combinedPS === '' && combinedUSA === '') {
-          setCombinedKey(`${combinedCR}`);
-        } else if ((combinedPS !== '' && combinedUSA === '') || combinedPS === combinedUSA) {
-          setCombinedKey(`${combinedPS}-${combinedCR}`);
-        } else if (combinedPS !== '' && combinedUSA !== '') {
-          setCombinedKey(`${combinedUSA}-${combinedPS}-${combinedCR}`);
-        }
-      } else if (combinedPS !== '' && combinedCR !== 'US') {
-        setCombinedKey(`${combinedCR}-${combinedPS}`);
-      } else {
-        setCombinedKey(`${combinedCR}`);
-      }
-
-      setFetchData(false);
-    };
-    handleDataChange();
-  }, [fetchData]); // eslint-disable-line
-
-  // function passed to child home drop down menus to update state
-
-  function updateState(val, type) {
-    switch (type) {
-      case 'countryRegion':
-        setCountryRegion(val);
-        break;
-      case 'provinceState':
-        setProvinceState(val);
-        break;
-      case 'usStateArea':
-        setUsStateArea(val);
-        break;
-      default:
-        break;
-    }
-  }
-
-  // handle click for submit of data load request
-
-  function handleClick(e) {
-    e.preventDefault();
-    setFetchData(true);
+  function setLoading(val) {
+    console.log(val);
+    setIsLoading(val);
   }
 
   return (
     <PageContainer>
       <ContentSection column={!isLoading} style={{ height: '80vh' }}>
-        {isLoading ? (
-          <LoadingSVG />
-        ) : (
-          <>
-            <StyledForm>
-              <HomeDropdown
-                stateUpdater={updateState}
-                arr={combinedKeyList}
-                type="countryRegion"
-                disabled={false}
-                defaultSelection={defaultSelection}
-              />
-              {typeof provinceStateList !== 'undefined' && provinceStateList.length > 1 ? (
-                <HomeDropdown stateUpdater={updateState} arr={provinceStateList} type="provinceState" disabled={false} />
-              ) : (
-                <HomeDropdown stateUpdater={updateState} arr={provinceStateList} type="provinceState" disabled />
-              )}
-              {countryRegion !== 'US' ? (
-                <HomeDropdown stateUpdater={updateState} arr={usStateAreaList} type="usStateArea" disabled />
-              ) : (
-                <HomeDropdown stateUpdater={updateState} arr={usStateAreaList} type="usStateArea" disabled={false} />
-              )}
-              <StyledButton type="button" onClick={handleClick}>
-                Fetch Data
-              </StyledButton>
-            </StyledForm>
-            <HomeChartContainer>
-              <HomeChart data={homeChartAPIData} labels={homeChartAPILabels} combinedKey={combinedKey} />
-            </HomeChartContainer>
-          </>
-        )}
+        {isLoading ? <LoadingSVG /> : <HomeSection API={API} setLoading={setLoading} />}
       </ContentSection>
       <ContentSection id="covid" coloured beforeEl>
         <TextContent left>
