@@ -6,8 +6,8 @@ const HomeChart = ({ data, labels, combinedKey }) => {
   const homeChartRef = useRef(null);
   useEffect(() => {
     if (typeof window !== 'undefined' && data) {
-      if (typeof homeChart !== 'undefined') {
-        homeChart.destroy();
+      if (typeof window.homeChart !== 'undefined') {
+        window.homeChart.destroy();
       }
       let confirmedData;
       let deadData;
@@ -67,18 +67,18 @@ const HomeChart = ({ data, labels, combinedKey }) => {
         ],
       };
 
-      const homeChart = new Chart(homeChartRef.current, {
+      window.homeChart = new Chart(homeChartRef.current, {
         type: 'line',
         data: homeChartData,
         options: homeChartOptions,
       });
 
-      if (typeof homeChart !== 'undefined') {
-        homeChart.data = homeChartData;
-        homeChart.update();
+      if (typeof window.homeChart !== 'undefined') {
+        window.homeChart.data = homeChartData;
+        window.homeChart.update();
       }
     }
-  }, [data, labels, combinedKey]); // eslint-disable-line
+  }, [data, labels, combinedKey]);
   return <canvas ref={homeChartRef}></canvas>;
 };
 
