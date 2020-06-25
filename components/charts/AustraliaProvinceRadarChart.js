@@ -105,15 +105,6 @@ const AustraliaProvinceRadarChart = ({ API }) => {
         legend: {
           display: false,
         },
-        scales: {
-          yAxes: [
-            {
-              ticks: {
-                display: false, // this will remove only the label
-              },
-            },
-          ],
-        },
       };
 
       const data = {
