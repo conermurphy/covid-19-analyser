@@ -2,12 +2,14 @@ import React, { useState, useEffect, useRef } from 'react';
 import { request } from 'graphql-request';
 import Chart from 'chart.js';
 import device from '../device';
+import LoadingSVG from '../loadingSVG';
 
 const UKUSDeadChart = ({ API }) => {
   const UKUSDeadChartRef = useRef(null);
   const [UKDeadData, setUKDeadData] = useState();
   const [USDeadData, setUSDeadData] = useState();
   const [chartLabels, setChartLabels] = useState();
+  const [isLoading, setIsLoading] = useState();
 
   async function getDeadData(combinedKey) {
     const data = await request(
@@ -22,6 +24,7 @@ const UKUSDeadChart = ({ API }) => {
   }
 
   useEffect(() => {
+    setIsLoading(true);
     const fetchUKUSDeadData = async () =>
       Promise.all(
         ['United-Kingdom', 'US'].map(
@@ -50,12 +53,13 @@ const UKUSDeadChart = ({ API }) => {
             })
         )
       );
+    setIsLoading(false);
 
     fetchUKUSDeadData();
   }, []); // eslint-disable-line
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== 'undefined' && !isLoading) {
       if (typeof window.UKUSDeadChart !== 'undefined') {
         window.UKUSDeadChart.destroy();
       }
@@ -110,8 +114,8 @@ const UKUSDeadChart = ({ API }) => {
         window.UKUSDeadChart.update();
       }
     }
-  }, [UKDeadData, USDeadData, chartLabels]);
-  return <canvas ref={UKUSDeadChartRef}></canvas>;
+  }, [UKDeadData, USDeadData, chartLabels, isLoading]);
+  return isLoading ? <LoadingSVG /> : <canvas ref={UKUSDeadChartRef}></canvas>;
 };
 
 export default UKUSDeadChart;

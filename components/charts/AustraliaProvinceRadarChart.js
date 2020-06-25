@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { request } from 'graphql-request';
 import Chart from 'chart.js';
+import LoadingSVG from '../loadingSVG';
 
 const AustraliaProvinceRadarChart = ({ API }) => {
   const AustraliaProvinceRadarChartRef = useRef(null);
   const [australiaProvinceList, setAustraliaProvinceList] = useState();
   const [australiaProvinceConfirmedData, setAustraliaProvinceConfirmedData] = useState([]);
+  const [isLoading, setIsLoading] = useState();
 
   // query to get province list from the API.
 
@@ -18,6 +20,7 @@ const AustraliaProvinceRadarChart = ({ API }) => {
   // useEffect to retrieve list from API and set to state.
 
   useEffect(() => {
+    setIsLoading(true);
     const fetchAustraliaProvinceList = async () => {
       const data = await request(API, australiaProvinceListQuery);
       const australiaProvinces = data.getProvinceState
@@ -77,15 +80,17 @@ const AustraliaProvinceRadarChart = ({ API }) => {
         // Setting confirmed data
 
         setAustraliaProvinceConfirmedData(confirmedDataArray);
+        setIsLoading(false);
       }
     };
+
     fetchConfirmedData();
   }, [API, australiaProvinceList]);
 
   // Drawing confirmed data chart
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== 'undefined' && !isLoading) {
       if (typeof window.AustraliaProvinceRadarChart !== 'undefined') {
         window.AustraliaProvinceRadarChart.destroy();
       }
@@ -131,9 +136,9 @@ const AustraliaProvinceRadarChart = ({ API }) => {
         window.AustraliaProvinceRadarChart.update();
       }
     }
-  }, [australiaProvinceConfirmedData]);
+  }, [australiaProvinceConfirmedData, isLoading]);
 
-  return <canvas ref={AustraliaProvinceRadarChartRef}></canvas>;
+  return isLoading ? <LoadingSVG /> : <canvas ref={AustraliaProvinceRadarChartRef}></canvas>;
 };
 
 export default AustraliaProvinceRadarChart;

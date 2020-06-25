@@ -1,12 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { request } from 'graphql-request';
 import Chart from 'chart.js';
+import LoadingSVG from '../loadingSVG';
 
 const USStateConfirmedChart = ({ API }) => {
   const USStateConfirmedChartRef = useRef(null);
   const [usStateList, setUsStateList] = useState();
   const [usStateConfirmedData, setUsStateConfirmedData] = useState();
   const [usStateConfirmedLabels, setUsStateConfirmedLabels] = useState();
+  const [isLoading, setIsLoading] = useState();
 
   // query to request the data for the province state from the API.
 
@@ -19,6 +21,7 @@ const USStateConfirmedChart = ({ API }) => {
   // useEffect to set stateList from confirmedKey list
 
   useEffect(() => {
+    setIsLoading(true);
     const createStateList = async () => {
       const usData = await request(API, getUSStates);
       const usProvinceStates = usData.getProvinceState.map(ps => ps.provinceState);
@@ -73,13 +76,14 @@ const USStateConfirmedChart = ({ API }) => {
 
         setUsStateConfirmedLabels(labels);
         setUsStateConfirmedData(data);
+        setIsLoading(false);
       }
     };
     fetchStateConfirmedData();
   }, [API, usStateList]);
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== 'undefined' && !isLoading) {
       if (typeof window.USStateConfirmedChart !== 'undefined') {
         window.USStateConfirmedChart.destroy();
       }
@@ -111,9 +115,9 @@ const USStateConfirmedChart = ({ API }) => {
         window.USStateConfirmedChart.update();
       }
     }
-  }, [usStateConfirmedData, usStateConfirmedLabels]);
+  }, [isLoading, usStateConfirmedData, usStateConfirmedLabels]);
 
-  return <canvas ref={USStateConfirmedChartRef}></canvas>;
+  return isLoading ? <LoadingSVG /> : <canvas ref={USStateConfirmedChartRef}></canvas>;
 };
 
 export default USStateConfirmedChart;

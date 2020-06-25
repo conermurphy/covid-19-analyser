@@ -65,8 +65,10 @@ const CovidCanvasContainer = styled.div`
   position: relative;
   margin: auto;
   height: auto;
-  width: 40%;
   margin-bottom: 5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   @media ${device.tablet} {
     margin-bottom: 2.5rem;

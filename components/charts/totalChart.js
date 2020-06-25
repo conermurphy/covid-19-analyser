@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { request } from 'graphql-request';
 import Chart from 'chart.js';
+import LoadingSVG from '../loadingSVG';
 
 const TotalChart = ({ API }) => {
   const totalChartRef = useRef(null);
@@ -8,6 +9,7 @@ const TotalChart = ({ API }) => {
   const [totalConfirmed, setTotalConfirmed] = useState();
   const [totalRecovered, setTotalRecovered] = useState();
   const [totalInfected, setTotalInfected] = useState();
+  const [isLoading, setIsLoading] = useState();
 
   const totalDataQuery = `query {
     getTimeSeriesTotal {
@@ -21,6 +23,7 @@ const TotalChart = ({ API }) => {
 
   useEffect(() => {
     const fetchTotalData = async () => {
+      setIsLoading(true);
       const rawData = await request(API, totalDataQuery);
       const { confirmed, dead, recovered } = rawData.getTimeSeriesTotal;
       const [confirmedVal, deadVal, recoveredVal] = [confirmed, dead, recovered].map(status => Object.values(status).slice(-1)).flat();
@@ -28,6 +31,7 @@ const TotalChart = ({ API }) => {
       setTotalDead(deadVal);
       setTotalRecovered(recoveredVal);
       setTotalInfected(confirmedVal - recoveredVal - deadVal);
+      setIsLoading(false);
     };
 
     fetchTotalData();
@@ -36,7 +40,7 @@ const TotalChart = ({ API }) => {
   // useEffect to render chart.
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== 'undefined' && !isLoading) {
       if (typeof window.totalChart !== 'undefined') {
         window.totalChart.destroy();
       }
@@ -68,12 +72,13 @@ const TotalChart = ({ API }) => {
         data: totalChartData,
         options: totalChartOptions,
       });
+
       if (typeof window.totalChart !== 'undefined') {
         window.totalChart.update();
       }
     }
   });
-  return <canvas ref={totalChartRef}></canvas>;
+  return isLoading ? <LoadingSVG /> : <canvas ref={totalChartRef}></canvas>;
 };
 
 export default TotalChart;
