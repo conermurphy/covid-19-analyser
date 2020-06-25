@@ -90,7 +90,6 @@ const awaitingRotate = keyframes`
 
 const StatusSVG = styled.svg`
   animation: ${awaitingRotate} 3s infinite;
-  margin-bottom: 12.5%;
 
   & > circle {
     fill: ${props => props.theme.accent};
@@ -312,45 +311,47 @@ const Home = () => {
 
   return (
     <PageContainer>
-      <ContentSection column>
-        <StyledForm>
-          <HomeDropdown
-            stateUpdater={updateState}
-            arr={combinedKeyList}
-            type="countryRegion"
-            disabled={false}
-            defaultSelection={defaultSelection}
-          />
-          {typeof provinceStateList !== 'undefined' && provinceStateList.length > 1 ? (
-            <HomeDropdown stateUpdater={updateState} arr={provinceStateList} type="provinceState" disabled={false} />
-          ) : (
-            <HomeDropdown stateUpdater={updateState} arr={provinceStateList} type="provinceState" disabled />
-          )}
-          {countryRegion !== 'US' ? (
-            <HomeDropdown stateUpdater={updateState} arr={usStateAreaList} type="usStateArea" disabled />
-          ) : (
-            <HomeDropdown stateUpdater={updateState} arr={usStateAreaList} type="usStateArea" disabled={false} />
-          )}
-          <StyledButton type="button" onClick={handleClick}>
-            Fetch Data
-          </StyledButton>
-        </StyledForm>
-        <HomeChartContainer>
-          {isLoading ? (
-            <StatusSVG width="250" height="250" viewBox="0 0 100 100">
-              <circle cx="50" cy="25" r="5" />
-              <circle cx="67.5" cy="32.5" r="5" />
-              <circle cx="75" cy="50" r="5" />
-              <circle cx="67.5" cy="67.5" r="5" />
-              <circle cx="50" cy="75" r="5" />
-              <circle cx="32.5" cy="67.5" r="5" />
-              <circle cx="25" cy="50" r="5" />
-              <circle cx="32.5" cy="32.5" r="5" />
-            </StatusSVG>
-          ) : (
-            <HomeChart data={homeChartAPIData} labels={homeChartAPILabels} combinedKey={combinedKey} />
-          )}
-        </HomeChartContainer>
+      <ContentSection column={!isLoading} style={{ height: '80vh' }}>
+        {isLoading ? (
+          <StatusSVG width="250" height="250" viewBox="0 0 100 100">
+            <circle cx="50" cy="25" r="5" />
+            <circle cx="67.5" cy="32.5" r="5" />
+            <circle cx="75" cy="50" r="5" />
+            <circle cx="67.5" cy="67.5" r="5" />
+            <circle cx="50" cy="75" r="5" />
+            <circle cx="32.5" cy="67.5" r="5" />
+            <circle cx="25" cy="50" r="5" />
+            <circle cx="32.5" cy="32.5" r="5" />
+          </StatusSVG>
+        ) : (
+          <>
+            <StyledForm>
+              <HomeDropdown
+                stateUpdater={updateState}
+                arr={combinedKeyList}
+                type="countryRegion"
+                disabled={false}
+                defaultSelection={defaultSelection}
+              />
+              {typeof provinceStateList !== 'undefined' && provinceStateList.length > 1 ? (
+                <HomeDropdown stateUpdater={updateState} arr={provinceStateList} type="provinceState" disabled={false} />
+              ) : (
+                <HomeDropdown stateUpdater={updateState} arr={provinceStateList} type="provinceState" disabled />
+              )}
+              {countryRegion !== 'US' ? (
+                <HomeDropdown stateUpdater={updateState} arr={usStateAreaList} type="usStateArea" disabled />
+              ) : (
+                <HomeDropdown stateUpdater={updateState} arr={usStateAreaList} type="usStateArea" disabled={false} />
+              )}
+              <StyledButton type="button" onClick={handleClick}>
+                Fetch Data
+              </StyledButton>
+            </StyledForm>
+            <HomeChartContainer>
+              <HomeChart data={homeChartAPIData} labels={homeChartAPILabels} combinedKey={combinedKey} />
+            </HomeChartContainer>
+          </>
+        )}
       </ContentSection>
       <ContentSection id="covid" coloured beforeEl>
         <TextContent left>
