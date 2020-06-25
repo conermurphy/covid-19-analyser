@@ -4,6 +4,7 @@ import device from './device';
 
 const StyledSelect = styled.select`
   max-width: 17.5%;
+  width: 17.5%;
   height: 2.5rem;
   margin: 0 1.5rem;
   border: 2px solid ${props => props.theme.accent};
@@ -15,11 +16,12 @@ const StyledSelect = styled.select`
 
   @media ${device.tablet} {
     max-width: 75%;
+    width: 75%;
     padding: 0.5rem 2rem;
   }
 `;
 
-const HomeDropdown = ({ stateUpdater, arr, type, disabled, defaultSelection }) => {
+const HomeDropdown = ({ stateUpdater, arr, type, disabled, defaultSelection, loadingData }) => {
   const [displayedCountry, setDisplayedCountry] = useState(defaultSelection);
 
   function handleChange(e) {
@@ -32,7 +34,7 @@ const HomeDropdown = ({ stateUpdater, arr, type, disabled, defaultSelection }) =
     stateUpdater(selectedVal, type);
   }
 
-  if (typeof arr !== 'undefined') {
+  if (!loadingData) {
     let indArr;
     let formID;
     switch (type) {
@@ -85,7 +87,7 @@ const HomeDropdown = ({ stateUpdater, arr, type, disabled, defaultSelection }) =
   }
   return (
     <StyledSelect name="Placeholder" id="placeholder">
-      <option value="Loading Data..."></option>
+      <option value="Loading Data...">Loading Data...</option>
     </StyledSelect>
   );
 };

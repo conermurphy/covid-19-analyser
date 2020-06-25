@@ -34,6 +34,9 @@ const StyledForm = styled.form`
   width: calc(100% - 1rem);
   margin: 1rem;
 
+  position: ${props => (props.loadingData ? 'absolute' : 'none')};
+  top: ${props => (props.loadingData ? '2.5rem' : '0px')};
+
   @media ${device.tablet} {
     flex-direction: column;
   }
@@ -221,35 +224,46 @@ const HomeSection = ({ API }) => {
 
   // === RETURNING THE DROPDOWNS AND HOME CHART ===
 
-  return isHomeLoading ? (
-    <LoadingSVG />
-  ) : (
+  return (
     <>
-      <StyledForm>
+      <StyledForm loadingData={isHomeLoading}>
         <HomeDropdown
           stateUpdater={updateState}
           arr={combinedKeyList}
           type="countryRegion"
           disabled={false}
           defaultSelection={defaultSelection}
+          loadingData={isHomeLoading}
         />
         {typeof provinceStateList !== 'undefined' && provinceStateList.length > 1 ? (
-          <HomeDropdown stateUpdater={updateState} arr={provinceStateList} type="provinceState" disabled={false} />
+          <HomeDropdown
+            stateUpdater={updateState}
+            arr={provinceStateList}
+            type="provinceState"
+            disabled={false}
+            loadingData={isHomeLoading}
+          />
         ) : (
-          <HomeDropdown stateUpdater={updateState} arr={provinceStateList} type="provinceState" disabled />
+          <HomeDropdown stateUpdater={updateState} arr={provinceStateList} type="provinceState" disabled loadingData={isHomeLoading} />
         )}
         {countryRegion !== 'US' ? (
-          <HomeDropdown stateUpdater={updateState} arr={usStateAreaList} type="usStateArea" disabled />
+          <HomeDropdown stateUpdater={updateState} arr={usStateAreaList} type="usStateArea" disabled loadingData={isHomeLoading} />
         ) : (
-          <HomeDropdown stateUpdater={updateState} arr={usStateAreaList} type="usStateArea" disabled={false} />
+          <HomeDropdown stateUpdater={updateState} arr={usStateAreaList} type="usStateArea" disabled={false} loadingData={isHomeLoading} />
         )}
         <StyledButton type="button" onClick={handleClick}>
           Fetch Data
         </StyledButton>
       </StyledForm>
-      <HomeChartContainer>
-        <HomeChart data={homeChartAPIData} labels={homeChartAPILabels} combinedKey={combinedKey} />
-      </HomeChartContainer>
+      {isHomeLoading ? (
+        <LoadingSVG />
+      ) : (
+        <>
+          <HomeChartContainer>
+            <HomeChart data={homeChartAPIData} labels={homeChartAPILabels} combinedKey={combinedKey} />
+          </HomeChartContainer>
+        </>
+      )}
     </>
   );
 };

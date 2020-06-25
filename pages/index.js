@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import HomeSection from '../components/HomeSection';
 import device from '../components/device';
-import LoadingSVG from '../components/loadingSVG';
 
 const UKUSDeadChart = dynamic(() => import('../components/charts/UKUSDeadChart.js'), { srr: false });
 const TotalChart = dynamic(() => import('../components/charts/totalChart.js'), { srr: false });
