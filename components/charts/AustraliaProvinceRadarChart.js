@@ -112,7 +112,7 @@ const AustraliaProvinceRadarChart = ({ API }) => {
         datasets: [
           {
             data: Object.values(australiaProvinceConfirmedData),
-            backgroundColor: ['#FAAA8D', '#0B3954', '#00A896', '#FAAA8D', '#0B3954', '#00A896', '#FAAA8D'],
+            backgroundColor: ['#FAAA8D', '#0B3954', '#00A896', '#FAAA8D', '#0B3954', '#00A896', '#FAAA8D', '0B3954'],
           },
         ],
       };
