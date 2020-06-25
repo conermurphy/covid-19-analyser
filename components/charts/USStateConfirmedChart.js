@@ -57,8 +57,8 @@ const USStateConfirmedChart = ({ API }) => {
             sl =>
               new Promise(async (res, rej) => {
                 try {
-                  const data = await getConfirmedData(sl);
-                  const dataValues = Object.values(data);
+                  const d = await getConfirmedData(sl);
+                  const dataValues = Object.values(d);
                   const latestConfirmed = dataValues[dataValues.length - 1];
                   const psData = {};
                   psData[sl] = latestConfirmed;
