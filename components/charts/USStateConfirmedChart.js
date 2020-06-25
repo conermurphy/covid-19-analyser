@@ -50,36 +50,44 @@ const USStateConfirmedChart = ({ API }) => {
       return data.getTimeSeries[0].confirmed;
     }
 
-    const fetchStateConfirmedData = async () => {
-      if (typeof usStateList !== 'undefined') {
-        const parsedData = await Promise.all(
-          usStateList.map(
-            sl =>
-              new Promise(async (res, rej) => {
-                try {
-                  const d = await getConfirmedData(sl);
-                  const dataValues = Object.values(d);
-                  const latestConfirmed = dataValues[dataValues.length - 1];
-                  const psData = {};
-                  psData[sl] = latestConfirmed;
-                  res(psData);
-                } catch (err) {
-                  console.error(err);
-                  rej(err);
-                }
-              })
-          )
-        );
+    if (typeof usStateList !== 'undefined') {
+      // Creates one string with every request in.
+      const requestData = usStateList
+        .map(sl => {
+          const id = sl.replace(/([-])/g, '');
+          return `${id}: getTimeSeries(combinedKey:"${sl}-US"){
+            confirmed
+          }`;
+        })
+        .join('');
 
-        const labels = parsedData.map(a => Object.keys(a)).flat();
-        const data = parsedData.map(a => Object.values(a)).flat();
+      // Surrounds the above request into a query ready to send.
+      const usRequest = `query {
+        ${requestData}
+      }`;
+
+      const fetchStateConfirmedData = async () => {
+        const apiData = await request(API, usRequest);
+        const arrayApiData = Object.entries(apiData);
+        const transformedData = arrayApiData.reduce((acc, cur) => {
+          const [location, caseData] = cur;
+          acc[location] = caseData[0].confirmed;
+          return acc;
+        }, []);
+
+        const labels = Object.keys(transformedData);
+        const data = Object.values(transformedData)
+          .map(d => Object.values(d))
+          .map(d => d.slice(d.length - 1))
+          .flat();
 
         setUsStateConfirmedLabels(labels);
         setUsStateConfirmedData(data);
-        setIsLoading(false);
-      }
-    };
-    fetchStateConfirmedData();
+      };
+      fetchStateConfirmedData();
+    }
+
+    setIsLoading(false);
   }, [API, usStateList]);
 
   useEffect(() => {
