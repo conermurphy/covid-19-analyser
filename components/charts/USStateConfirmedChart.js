@@ -37,19 +37,6 @@ const USStateConfirmedChart = ({ API }) => {
   // Fetch confirmed data and set to state
 
   useEffect(() => {
-    async function getConfirmedData(PS) {
-      const data = await request(
-        // Can this be made to be one request for all states rather than 50 small requests???
-        API,
-        `query { 
-            getTimeSeries(combinedKey:"${PS}-US"){
-              confirmed
-            }
-          }`
-      );
-      return data.getTimeSeries[0].confirmed;
-    }
-
     if (typeof usStateList !== 'undefined') {
       // Creates one string with every request in.
       const requestData = usStateList
