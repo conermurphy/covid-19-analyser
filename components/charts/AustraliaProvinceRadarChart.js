@@ -7,6 +7,7 @@ const AustraliaProvinceRadarChart = ({ API }) => {
   const AustraliaProvinceRadarChartRef = useRef(null);
   const [australiaProvinceList, setAustraliaProvinceList] = useState();
   const [australiaProvinceConfirmedData, setAustraliaProvinceConfirmedData] = useState([]);
+  const [australiaProvinceConfirmedLabels, setAustraliaProvinceConfirmedLabels] = useState();
   const [isLoading, setIsLoading] = useState();
 
   // query to get province list from the API.
@@ -35,56 +36,50 @@ const AustraliaProvinceRadarChart = ({ API }) => {
   // useEffect to fetch data for each province and set to state.
 
   useEffect(() => {
-    async function getAustraliaProvinceData(PS) {
-      const data = await request(
-        API,
-        `query {
-            getTimeSeries(combinedKey:"${PS}"){
-              confirmed
-            }
-          }`
-      );
-      return data.getTimeSeries[0];
+    if (typeof australiaProvinceList !== 'undefined') {
+      // Creates a string for every request.
+      const requestData = australiaProvinceList
+        .map(sl => {
+          const id = sl.replace(/([-])/g, '');
+          return `${id}: getTimeSeries(combinedKey:"${sl}"){
+          confirmed
+        }`;
+        })
+        .join('');
+      // surrounds all the above requests into one request to send.
+      const ausRequest = `query{
+          ${requestData}
+        }`;
+
+      const fetchConfirmedData = async () => {
+        const apiData = await request(API, ausRequest);
+        const arrayApiData = Object.entries(apiData);
+        const transformedData = arrayApiData.reduce((acc, cur) => {
+          const [location, caseData] = cur;
+          acc[location] = caseData[0].confirmed;
+          return acc;
+        }, []);
+
+        const labels = Object.keys(transformedData)
+          .map(d => d.replace(/([A-Z])/g, ' $1').trim())
+          .map(d =>
+            d
+              .split(' ')
+              .slice(1)
+              .join(' ')
+          );
+        const data = Object.values(transformedData)
+          .map(d => Object.values(d))
+          .map(d => d.slice(d.length - 1))
+          .flat();
+
+        setAustraliaProvinceConfirmedLabels(labels);
+        setAustraliaProvinceConfirmedData(data);
+      };
+      fetchConfirmedData();
     }
 
-    const fetchConfirmedData = async () => {
-      if (typeof australiaProvinceList !== 'undefined') {
-        const apiData = await Promise.all(
-          australiaProvinceList.map(
-            pr =>
-              new Promise(async (res, rej) => {
-                try {
-                  const data = await getAustraliaProvinceData(pr);
-                  const confirmedData = Object.values(data.confirmed);
-                  const confirmedLatest = confirmedData[confirmedData.length - 1];
-                  const obj = { [pr]: {} };
-                  obj[pr].confirmed = confirmedLatest;
-                  res(obj);
-                } catch (err) {
-                  console.error(err);
-                  rej(err);
-                }
-              })
-          )
-        );
-
-        // reduce to separate confirmed data
-
-        const confirmedDataArray = apiData.reduce((acc, cur) => {
-          const data = Object.entries(cur);
-          const [[location, caseData]] = data;
-          acc[location] = caseData.confirmed;
-          return acc;
-        }, {});
-
-        // Setting confirmed data
-
-        setAustraliaProvinceConfirmedData(confirmedDataArray);
-        setIsLoading(false);
-      }
-    };
-
-    fetchConfirmedData();
+    setIsLoading(false);
   }, [API, australiaProvinceList]);
 
   // Drawing confirmed data chart
@@ -108,11 +103,11 @@ const AustraliaProvinceRadarChart = ({ API }) => {
       };
 
       const data = {
-        labels: Object.keys(australiaProvinceConfirmedData),
+        labels: australiaProvinceConfirmedLabels,
         datasets: [
           {
-            data: Object.values(australiaProvinceConfirmedData),
-            backgroundColor: ['#FAAA8D', '#0B3954', '#00A896', '#FAAA8D', '#0B3954', '#00A896', '#FAAA8D', '0B3954'],
+            data: australiaProvinceConfirmedData,
+            backgroundColor: ['#FAAA8D', '#0B3954', '#00A896', '#FAAA8D', '#0B3954', '#00A896', '#FAAA8D', '#0B3954'],
           },
         ],
       };
@@ -127,7 +122,7 @@ const AustraliaProvinceRadarChart = ({ API }) => {
         window.AustraliaProvinceRadarChart.update();
       }
     }
-  }, [australiaProvinceConfirmedData, isLoading]);
+  }, [australiaProvinceConfirmedData, australiaProvinceConfirmedLabels, isLoading]);
 
   return isLoading ? <LoadingSVG /> : <canvas ref={AustraliaProvinceRadarChartRef}></canvas>;
 };
