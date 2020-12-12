@@ -34,8 +34,8 @@ const StyledForm = styled.form`
   width: calc(100% - 1rem);
   margin: 1rem;
 
-  position: ${props => (props.loadingData ? 'absolute' : 'none')};
-  top: ${props => (props.loadingData ? '2.5rem' : '0px')};
+  position: ${(props) => (props.loadingData ? 'absolute' : 'none')};
+  top: ${(props) => (props.loadingData ? '2.5rem' : '0px')};
 
   @media ${device.tablet} {
     flex-direction: column;
@@ -46,10 +46,10 @@ const StyledButton = styled.button`
   max-width: 10%;
   height: 2.5rem;
   margin: 0 1.5rem;
-  border: 2px solid ${props => props.theme.offWhite};
+  border: 2px solid ${(props) => props.theme.offWhite};
   border-radius: 0.5rem;
-  background-color: ${props => props.theme.accent};
-  box-shadow: ${props => props.theme.bs};
+  background-color: ${(props) => props.theme.accent};
+  box-shadow: ${(props) => props.theme.bs};
   padding: 0 0.5rem;
 
   @media ${device.tablet} {
@@ -126,6 +126,19 @@ const HomeSection = ({ API }) => {
     fetchCountryData();
   }, []); // eslint-disable-line
 
+  // function to transform dates
+  const dateTransformer = (date) => new Date(`20${date.slice(4)}-${date.slice(0, 2)}-${date.slice(2, 4)}`);
+
+  const dataTransformer = (data) =>
+    data
+      .map((d) => [dateTransformer(d[0]), d[1]])
+      .sort((a, b) => a[0] - b[0])
+      .reduce((acc, cur) => {
+        const [date, info] = cur;
+        acc.set(date, info);
+        return acc;
+      }, new Map());
+
   // This calls the query to get the selected combinedKey data from the API.
 
   useEffect(() => {
@@ -135,8 +148,20 @@ const HomeSection = ({ API }) => {
       const homeGraphData = await request(API, homeGraphDataQuery);
       const usableData = homeGraphData.getTimeSeries[0];
 
-      setHomeChartAPIData(usableData);
-      setHomeChartAPILabels(Object.keys(usableData.confirmed));
+      const data = Object.values(usableData);
+      const [dead, recovered, confirmed] = data.map((d) => Object.entries(d));
+      const newData = [dead, recovered, confirmed].map((d) => dataTransformer(d));
+      const finalObj = {
+        dead: newData[0],
+        recovered: newData[1],
+        confirmed: newData[2],
+      };
+
+      const dates = [];
+      finalObj.confirmed.forEach((value, key) => dates.push(key.toLocaleDateString()));
+
+      setHomeChartAPIData(finalObj);
+      setHomeChartAPILabels(dates);
 
       setIsHomeLoading(false);
     };

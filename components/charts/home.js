@@ -9,24 +9,23 @@ const HomeChart = ({ data, labels, combinedKey }) => {
       if (typeof window.homeChart !== 'undefined') {
         window.homeChart.destroy();
       }
-      let confirmedData;
-      let deadData;
-      let recoveredData;
+      let confirmedData = [];
+      let deadData = [];
+      let recoveredData = [];
 
-      Object.entries(data).forEach(d => {
-        switch (d[0]) {
-          case 'confirmed':
-            confirmedData = Object.values(d[1]);
-            break;
-          case 'dead':
-            deadData = Object.values(d[1]);
-            break;
-          case 'recovered':
-            recoveredData = Object.values(d[1]);
-            break;
-          default:
+      Object.entries(data).forEach(i => {
+        switch (i[0]) {
+          case 'confirmed': 
+            i[1].forEach((value) => confirmedData.push(value));
+          break;
+          case 'recovered': 
+            i[1].forEach((value) => recoveredData.push(value));
+          break;
+          case 'dead': 
+            i[1].forEach((value) => deadData.push(value));
+          break;
         }
-      });
+      })
 
       const homeChartOptions = {
         legend: {
